@@ -1,0 +1,47 @@
+.bg-body-tertiary {
+  background-color: #f8f9fa !important;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-right: 1rem;
+}
+
+.navbar-brand img {
+  height: 20%;
+  width: 20%;
+}
+
+.navbar-nav {
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.nav-link {
+  color: #000;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  transition: color 0.2s ease-in-out;
+  margin-right: 50px;
+}
+
+.nav-link:hover {
+  color: #007bff;
+}
+
+.nav-link.active {
+  color: #007bff;
+}
+
+@media (max-width: 767.98px) {
+  .navbar-brand {
+    font-size: 1.2rem;
+  }
+
+  .nav-link {
+    padding: 0.2rem 0.5rem;
+  }
+}
