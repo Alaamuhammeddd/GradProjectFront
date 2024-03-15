@@ -1,0 +1,18 @@
+.LoginLink {
+  text-decoration: none;
+}
+.LoginLink:hover {
+  color: #8e8888;
+}
+.submitBtn {
+  margin-top: 50px;
+  background-color: #083f77;
+  color: #ffff;
+  width: 245.19px;
+  height: 60.51px;
+  border-radius: 23.01px;
+  margin-bottom: 30px;
+  border: solid #000000 1px;
+  font-weight: 800;
+  font-size: 20px;
+}
