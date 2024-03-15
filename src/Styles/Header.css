@@ -1,47 +1,90 @@
-.bg-body-tertiary {
-  background-color: #f8f9fa !important;
-  border-bottom: 1px solid #e9ecef;
+* {
+  font-family: "Karla", sans-serif;
+}
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  padding: 10px 20px;
+  border-bottom: solid 2px #000;
 }
 
-.navbar-brand {
-  font-weight: bold;
-  font-size: 1.5rem;
-  margin-right: 1rem;
+nav div {
+  display: flex;
+  align-items: center;
 }
 
-.navbar-brand img {
-  height: 20%;
-  width: 20%;
+nav img {
+  height: 50px;
+  margin-right: 10px;
 }
 
-.navbar-nav {
-  padding-left: 0;
-  margin-bottom: 0;
+nav span {
+  color: #2a5f9c;
+  font-size: 24px;
+  font-weight: 1000;
 }
 
-.nav-link {
+nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav li {
+  margin-right: 30px;
   color: #000;
-  font-weight: 500;
-  font-size: 1rem;
-  padding: 0.5rem 1rem;
-  transition: color 0.2s ease-in-out;
-  margin-right: 50px;
+  font-weight: bold;
+}
+nav li:hover {
+  margin-right: 30px;
+  color: #636262;
+  cursor: pointer;
+}
+nav button {
+  background-color: #083f77;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px;
+  width: 169px;
+  height: 38px;
+}
+.lognbtn {
+  background-color: #083f77;
 }
 
-.nav-link:hover {
-  color: #007bff;
+.signbtn {
+  background-color: #585858;
+}
+.lognbtn:hover {
+  background-color: #062a4f;
 }
 
-.nav-link.active {
-  color: #007bff;
+.signbtn:hover {
+  background-color: #393838;
 }
 
-@media (max-width: 767.98px) {
-  .navbar-brand {
-    font-size: 1.2rem;
-  }
+.searchInput {
+  width: 400px;
+  height: 36px;
+}
+.search-container {
+  position: relative;
+}
 
-  .nav-link {
-    padding: 0.2rem 0.5rem;
-  }
+.searchInput {
+  border: solid #393838 2px;
+  border-radius: 5px;
+  padding: 5px;
+  padding-right: 30px;
+  margin-right: 20px;
+}
+
+.searchInput::placeholder {
+  color: #ccc;
 }
