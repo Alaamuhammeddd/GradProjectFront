@@ -16,3 +16,9 @@
   font-weight: 800;
   font-size: 20px;
 }
+.input-error {
+  border: 1px solid rgb(236, 91, 91);
+}
+.error-msg {
+  color: rgb(236, 91, 91);
+}
