@@ -1,10 +1,18 @@
 import React from "react";
-import image from "../Assets/Images/Logo.png";
 import logo from "../Assets/Images/Logo.png";
 import { Link } from "react-router-dom";
-
+import { getAuthUser, removeAuthUser } from "../Helper/Storage";
+import { useNavigate } from "react-router-dom";
 import "../Styles/Header.css";
 const Header = () => {
+  const auth = getAuthUser();
+  const navigate = useNavigate();
+  console.log("auth:", auth);
+
+  const Logout = () => {
+    removeAuthUser();
+    navigate("/");
+  };
   return (
     <>
       <nav>
@@ -24,14 +32,21 @@ const Header = () => {
             placeholder="&#x1F50E;&#xFE0E; Search"
           />
         </div>
-        <div>
-          <Link to={"/login"}>
-            <button className="lognbtn">Log In</button>
-          </Link>
-          <Link to={"/register"}>
-            <button className="signbtn">Sign Up</button>
-          </Link>
-        </div>
+
+        {auth ? (
+          <button className="logoutbtn" onClick={Logout}>
+            Logout
+          </button>
+        ) : (
+          <div>
+            <Link to={"/login"}>
+              <button className="lognbtn">Log In</button>
+            </Link>
+            <Link to={"/register"}>
+              <button className="signbtn">Sign Up</button>
+            </Link>
+          </div>
+        )}
       </nav>
     </>
   );
