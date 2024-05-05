@@ -1,0 +1,28 @@
+.dropdown {
+  position: relative;
+}
+
+.dropdown-toggle {
+  background-color: #f9f9f9;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  padding: 10px;
+  display: none;
+}
+
+.dropdown-menu li {
+  margin: 5px 0;
+}
+
+.open .dropdown-menu {
+  display: block;
+}

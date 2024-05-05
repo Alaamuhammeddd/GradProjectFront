@@ -1,0 +1,23 @@
+/* src/components/ProjectsCard.css */
+
+.project-card {
+  border-left: 10px solid #2a5f9c;
+  border-radius: 23px;
+  padding: 20px;
+  margin: 10px;
+  width: 35%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 900px;
+  text-align: left;
+  font-family: "Karla", sans-serif;
+  background-color: #fff;
+  margin-bottom: 35px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.project-card img {
+  max-width: 100%;
+  height: auto;
+}

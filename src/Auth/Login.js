@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { setAuthUser } from "../Helper/Storage";
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [student_id, setStudentid] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
@@ -14,12 +14,16 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:4000/auth/login", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "http://localhost:4000/auth/student-login",
+        {
+          student_id,
+          password,
+        }
+      );
       console.log("Registration successful:", response.data);
       setAuthUser(response.data);
+      sessionStorage.setItem("authUser", JSON.stringify(response.data));
       navigate("/home");
     } catch (error) {
       console.error("Registration failed:", error.response.data);
@@ -45,14 +49,16 @@ const Login = () => {
           Login Here{" "}
         </h1>
         <input
-          type="email"
-          id="email"
-          placeholder="Email Address"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className={errors.email ? "input-error" : ""}
+          type="text"
+          id="number"
+          placeholder="Enter Your ID"
+          value={student_id}
+          onChange={(e) => setStudentid(e.target.value)}
+          className={errors.student_id ? "input-error" : ""}
         />
-        {errors.email && <span className="error-msg">{errors.email}</span>}
+        {errors.studentId && (
+          <span className="error-msg">{errors.student_id}</span>
+        )}
         <br />
         <input
           type="password"
