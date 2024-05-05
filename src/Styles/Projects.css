@@ -1,0 +1,14 @@
+/* src/App.css */
+
+.App {
+  text-align: center;
+}
+
+.projects-grid {
+  margin-top: 60px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 100%;
+  justify-items: start;
+}

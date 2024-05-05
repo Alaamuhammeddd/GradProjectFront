@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../Assets/Images/Logo.png";
 import { Link } from "react-router-dom";
 import { getAuthUser, removeAuthUser } from "../Helper/Storage";
 import { useNavigate } from "react-router-dom";
 import "../Styles/Header.css";
+
 const Header = () => {
+  const [showDropdown, setShowDropdown] = useState(false);
   const auth = getAuthUser();
   const navigate = useNavigate();
   console.log("auth:", auth);
@@ -13,6 +15,7 @@ const Header = () => {
     removeAuthUser();
     navigate("/");
   };
+
   return (
     <>
       <nav>
@@ -21,9 +24,20 @@ const Header = () => {
           <span>GradPath</span>
         </div>
         <ul>
-          <li>Home</li>
-          <li>Projects</li>
-          <li>About us</li>
+          <Link
+            className="nav-link"
+            to={"/projects"}
+            style={{ fontWeight: "bold" }}
+          >
+            Projects
+          </Link>
+          <Link
+            className="nav-link"
+            to={"/projects"}
+            style={{ fontWeight: "bold" }}
+          >
+            Projects
+          </Link>
         </ul>
         <div className="search-container">
           <input
@@ -34,9 +48,28 @@ const Header = () => {
         </div>
 
         {auth ? (
-          <button className="logoutbtn" onClick={Logout}>
-            Logout
-          </button>
+          <div className="user-info">
+            <span className="greeting">Hello, {auth.student_name}</span>
+            <div className="dropdown">
+              <button
+                className="dropbtn"
+                onClick={() => setShowDropdown(!showDropdown)}
+              >
+                &#9660;
+              </button>
+              {showDropdown && (
+                <div className="dropdown-content">
+                  <button onClick={Logout}>Logout</button>
+                  <Link to={"/settings"}>
+                    <button> Settings </button>
+                  </Link>
+                  <Link to={"/bookmarked-student"}>
+                    <button> Bookmarked Projects </button>
+                  </Link>
+                </div>
+              )}
+            </div>
+          </div>
         ) : (
           <div>
             <Link to={"/login"}>
