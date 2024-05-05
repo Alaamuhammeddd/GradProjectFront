@@ -6,7 +6,8 @@ import Register from "./Auth/Register";
 import Home from "./Pages/Home/Home";
 import Projects from "./Pages/Projects";
 import Settings from "./Pages/settings";
-import bookmarkedProjects from "./Pages/student/bookmarkedProjects";
+import BookmarkedProjects from "./Pages/student/BookmarkedProjects";
+import MyProjects from "./Pages/student/MyProjects";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -35,7 +36,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/bookmarked-student",
-        element: <bookmarkedProjects />,
+        element: <BookmarkedProjects />,
+      },
+      {
+        path: "/my-projects",
+        element: <MyProjects />,
       },
     ],
   },

@@ -1,7 +1,7 @@
 import React from "react";
 
-const bookmarkedProjects = () => {
-  return <div></div>;
+const BookmarkedProjects = () => {
+  return <div>Book mark Page</div>;
 };
 
-export default bookmarkedProjects;
+export default BookmarkedProjects;
