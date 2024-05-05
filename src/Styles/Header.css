@@ -125,9 +125,22 @@ nav button {
 .nav-link {
   text-decoration: none;
   margin-right: 20px;
-  font-size: 21px;
+  font-size: 25px;
 }
 
 .nav-link:hover {
-  color: #c9c1c1;
+  color: #605c5c;
+  /* background-color: #605c5c;   */
+}
+.nav-linkitem:hover {
+  color: #605c5c;
+  background-color: #a29c9c;
+}
+
+.dropdownitm {
+  font-size: 16px;
+}
+.nav-linkitem {
+  text-decoration: none;
+  font-size: 21px;
 }
