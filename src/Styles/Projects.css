@@ -2,13 +2,39 @@
 
 .App {
   text-align: center;
+  background-image: url("../Assets/Images/gradcap.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .projects-grid {
-  margin-top: 60px;
+  margin-top: 40px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   width: 100%;
   justify-items: start;
+}
+.searchInput {
+  width: 400px;
+  height: 36px;
+}
+.search-container {
+  position: relative;
+  margin-top: 60px;
+  display: flex;
+  margin-left: 186px;
+  margin-right: auto;
+}
+
+.searchInput {
+  border: solid #393838 2px;
+  border-radius: 5px;
+  padding: 5px;
+  padding-right: 30px;
+  margin-right: 20px;
+}
+
+.searchInput::placeholder {
+  color: #ccc;
 }

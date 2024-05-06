@@ -6,6 +6,7 @@ import ProjectsCard from "./ProjectsCard";
 const Projects = () => {
   const [projects, setProjects] = useState([]);
 
+  const handleClick = () => {};
   useEffect(() => {
     axios
       .get("http://localhost:4000/auth/projects")
@@ -18,13 +19,20 @@ const Projects = () => {
   }, []);
 
   return (
-    <div className="projects-grid">
-      {/* <h1>Your Projects</h1> */}
-
-      {projects.map((project) => (
-        <ProjectsCard key={project.project_id} project={project} />
-      ))}
-    </div>
+    <>
+      <div className="search-container">
+        <input
+          className="searchInput"
+          type="search"
+          placeholder="&#x1F50E;&#xFE0E; Search"
+        />
+      </div>
+      <div className="projects-grid">
+        {projects.map((project) => (
+          <ProjectsCard key={project.project_id} project={project} />
+        ))}
+      </div>
+    </>
   );
 };
 
