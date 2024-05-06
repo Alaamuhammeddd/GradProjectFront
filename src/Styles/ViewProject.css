@@ -1,0 +1,53 @@
+/* .project-header {
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  display: inline-block;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  background-color: #f6f6f6;
+  background-size: auto;
+  padding: 20px 20px 20px 20px;
+  border-radius: 20px;
+} */
+* {
+  font-family: "karla", sans-serif;
+}
+.container {
+  display: flex;
+}
+.project-header,
+.project-details {
+  flex: 1;
+}
+.project-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 20px 20px 20px 20px; /* Adjust padding as needed */
+  box-sizing: border-box;
+}
+
+.text {
+  display: inline-block;
+  background-color: #f6f6f6; /* Set background color here */
+  padding: 30px 60px 30px 60px; /* Adjust padding as needed */
+  box-sizing: border-box; /* Ensure padding is included in width */
+  text-align: left;
+  border-radius: 35px; /* Center text */
+}
+.project-stats {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  padding: 20px 20px 20px 20px; /* Adjust padding as needed */
+  box-sizing: border-box;
+  flex-wrap: wrap;
+}
+.project-actions {
+  display: flex;
+  justify-content: flex-end;
+}

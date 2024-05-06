@@ -3,7 +3,7 @@
 .project-card {
   border-left: 10px solid #2a5f9c;
   border-radius: 23px;
-  padding: 20px;
+  padding: 25px;
   margin: 10px;
   width: 35%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -24,6 +24,14 @@
 
 .links {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   margin-right: 10px;
+}
+
+.github-logo:hover {
+  color: #2a5f9c;
+}
+.cardTitle:hover {
+  cursor: pointer;
+  color: rgb(172, 187, 212);
 }

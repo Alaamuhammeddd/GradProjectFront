@@ -31,6 +31,18 @@ const Header = () => {
             <ul>
               <Link
                 className="nav-linkitem"
+                to={"/home"}
+                style={{
+                  fontWeight: "bolder",
+                  fontSize: "22px",
+                  color: "#083f77",
+                  marginRight: "20px",
+                }}
+              >
+                Home
+              </Link>
+              <Link
+                className="nav-linkitem"
                 to={"/projects"}
                 style={{
                   fontWeight: "bolder",
@@ -40,21 +52,8 @@ const Header = () => {
               >
                 Projects
               </Link>
-              {/* <Link
-            className="nav-link"
-            to={"/projects"}
-            style={{ fontWeight: "bold" }}
-          >
-            Projects
-          </Link> */}
             </ul>
-            <div className="search-container">
-              <input
-                className="searchInput"
-                type="search"
-                placeholder="&#x1F50E;&#xFE0E; Search"
-              />
-            </div>
+
             <div className="user-info">
               <span className="greeting">Hello, {auth.student_name}</span>
 
@@ -66,12 +65,15 @@ const Header = () => {
 
                 <Dropdown.Menu>
                   <Link className="nav-linkitem" to={"/bookmarked-student"}>
-                    <Dropdown.Item href="#/action-1" className="dropdownitm">
+                    <Dropdown.Item
+                      href="/bookmarked-student"
+                      className="dropdownitm"
+                    >
                       Bookmarked Projects
                     </Dropdown.Item>
                   </Link>
                   <Link className="nav-linkitem" to={"/my-projects"}>
-                    <Dropdown.Item href="#/action-2" className="dropdownitm">
+                    <Dropdown.Item href="/my-projects" className="dropdownitm">
                       My Projects
                     </Dropdown.Item>
                   </Link>
@@ -80,7 +82,7 @@ const Header = () => {
                   <Dropdown.Item
                     onClick={Logout}
                     style={{ color: "#D31510" }}
-                    href="#/action-3"
+                    href="/login"
                   >
                     <CircumIcon size="20px" name="logout" /> Log Out
                   </Dropdown.Item>

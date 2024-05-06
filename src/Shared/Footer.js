@@ -1,8 +1,11 @@
 import React from "react";
+import "../Styles/Footer.css";
 const Footer = () => {
   return (
     <div className="Footer">
-      <p>Copyright &copy; all reserved 2023</p>
+      <p style={{ textAlign: "center", marginTop: "5px" }}>
+        Copyright &copy; all reserved 2023
+      </p>
     </div>
   );
 };
