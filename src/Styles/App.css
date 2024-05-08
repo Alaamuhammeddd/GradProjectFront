@@ -1,5 +1,13 @@
+* {
+  font-family: "Karla", sans-serif;
+}
 .App {
-  background-image: url("../Assets/Images/gradcap.jpg");
-  background-repeat: no-repeat;
+  /* background-image: url("../Assets/Images/menna.jpg"); */
+  /* background-repeat: no-repeat;
   background-size: cover;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+  text-align: center; */
 }

@@ -5,8 +5,8 @@ import "../Styles/Login.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { setAuthUser } from "../Helper/Storage";
-const LoginProf = () => {
-  const [student_id, setStudentid] = useState("");
+const Login = () => {
+  const [professor_email, setProfessorEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
@@ -15,9 +15,9 @@ const LoginProf = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:4000/auth/student-login",
+        "http://localhost:4000/professor/professor-login",
         {
-          student_id,
+          professor_email,
           password,
         }
       );
@@ -50,11 +50,11 @@ const LoginProf = () => {
             Login Here{" "}
           </h1>
           <input
-            type="text"
+            type="email"
             id="number"
-            placeholder="Enter Your ID"
-            value={student_id}
-            onChange={(e) => setStudentid(e.target.value)}
+            placeholder="Enter Your Email"
+            value={professor_email}
+            onChange={(e) => setProfessorEmail(e.target.value)}
             className={errors.student_id ? "input-error" : ""}
           />
           {errors.studentId && (
@@ -87,4 +87,4 @@ const LoginProf = () => {
   );
 };
 
-export default LoginProf;
+export default Login;

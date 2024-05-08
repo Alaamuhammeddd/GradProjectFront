@@ -1,0 +1,22 @@
+.profile-photo-container {
+    display: flex; 
+    align-items: center; 
+  }
+  
+  .profile-photo {
+    width: 80px; 
+    height: 80px; 
+    border-radius: 50%;
+    overflow: hidden; 
+    margin-right: 10px; 
+  }
+  
+  .profile-photo-image {
+    width: 100%; 
+    height: auto; 
+  }
+  
+  .profile-name {
+    font-size: 16px; 
+  }
+  

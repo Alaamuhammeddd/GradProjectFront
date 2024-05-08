@@ -20,7 +20,7 @@ const Header = () => {
     <>
       <nav>
         <div>
-          <Link className="nav-link" to={"/home"}>
+          <Link className="nav-link" to={"/"}>
             <img src={logo} alt="GradPath logo" />
             <span>GradPath</span>
           </Link>
@@ -31,7 +31,7 @@ const Header = () => {
             <ul>
               <Link
                 className="nav-linkitem"
-                to={"/home"}
+                to={"/"}
                 style={{
                   fontWeight: "bolder",
                   fontSize: "22px",
@@ -55,7 +55,9 @@ const Header = () => {
             </ul>
 
             <div className="user-info">
-              <span className="greeting">Hello, {auth.student_name}</span>
+              <span className="greeting">
+                Hello, {auth.student_name || "Dr. " + auth.professor_name}
+              </span>
 
               <Dropdown>
                 <Dropdown.Toggle
@@ -72,9 +74,14 @@ const Header = () => {
                       Bookmarked Projects
                     </Dropdown.Item>
                   </Link>
-                  <Link className="nav-linkitem" to={"/my-projects"}>
-                    <Dropdown.Item href="/my-projects" className="dropdownitm">
-                      My Projects
+                  <Link className="nav-linkitem" to={"/my-project"}>
+                    <Dropdown.Item href="/my-project" className="dropdownitm">
+                      View My Project
+                    </Dropdown.Item>
+                  </Link>
+                  <Link className="nav-linkitem" to={"/settings"}>
+                    <Dropdown.Item href="/settings" className="dropdownitm">
+                      Settings
                     </Dropdown.Item>
                   </Link>
 
