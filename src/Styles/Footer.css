@@ -1,8 +1,8 @@
-.Footer {
+/* .Footer {
   font-size: 18px;
   text-align: center;
   padding: 3px;
-  background-color: #fff;
+  background-color: #bbb;
   width: 100%;
   color: rgb(15, 7, 7);
   margin-top: 3px;
@@ -10,4 +10,25 @@
   font-family: "Karla", sans-serif;
   border-top: 3px solid black;
   font-weight: bold;
+  height: 100%;
+  position: fixed;
+} */
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+.Footer {
+  font-size: 18px;
+  text-align: center;
+  padding: 3px;
+  background-color: #bbb;
+  color: rgb(15, 7, 7);
+  font-family: "Karla", sans-serif;
+  border-top: 3px solid black;
+  font-weight: bold;
+  position: relative;
+  bottom: 0;
+  left: 0;
+  width: 100%;
 }

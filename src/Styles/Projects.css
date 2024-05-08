@@ -2,7 +2,7 @@
 
 .App {
   text-align: center;
-  background-image: url("../Assets/Images/gradcap.jpg");
+  /* background-image: url("../Assets/Images/gradcap.jpg"); */
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -23,8 +23,15 @@
   position: relative;
   margin-top: 60px;
   display: flex;
+  justify-content: space-between; /* Change to space-between */
+  align-items: center; /* Vertically center the items */
+  width: 50%; /* Adjust the width */
+  margin-left: 186px; /* Align to the right */
+  /* position: relative;
+  margin-top: 60px;
+  display: flex;
   margin-left: 186px;
-  margin-right: auto;
+  margin-right: auto; */
 }
 
 .searchInput {
@@ -37,4 +44,20 @@
 
 .searchInput::placeholder {
   color: #ccc;
+}
+.actions {
+  position: relative;
+  margin-top: 9px;
+  /* display: inline-flex; */
+  /* margin-left: 186px;
+  margin-right: auto; */
+  margin-left: 0px;
+  margin-right: auto;
+}
+.add-btn {
+  width: 200.19px;
+  height: 45.51px;
+  background-color: #083f77;
+  color: #fff;
+  border-radius: 20px;
 }

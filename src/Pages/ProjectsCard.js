@@ -1,12 +1,12 @@
 import React from "react";
 import "../Styles/ProjectsCard.css";
 import { BiUpvote } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { FaGithub } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 const ProjectsCard = ({ project }) => {
   const projectId = project.project_id;
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   // const handleClick = () => {
   //   const projectId = project.project_id;
   //   navigate(`/view-project/${projectId}`);
@@ -15,7 +15,10 @@ const ProjectsCard = ({ project }) => {
   return (
     <div className="project-card">
       <div className="cardText">
-        <Link to={"/view-project/" + projectId}>
+        <Link
+          to={"/view-project/" + projectId}
+          className={"title" && "cardTitle"}
+        >
           <h2>{project.title}</h2>
           <div className="cardTitle"></div>
         </Link>
@@ -33,6 +36,8 @@ const ProjectsCard = ({ project }) => {
       <div className="links">
         <a
           href={project.github_link}
+          target="_blank" // Add this line
+          rel="noopener noreferrer"
           style={{ textDecoration: "none", color: "black" }}
         >
           {" "}

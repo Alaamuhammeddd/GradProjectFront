@@ -1,0 +1,60 @@
+.settings-tab {
+    border: 3px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    width: 400px;
+    margin: 160px auto;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .user-info img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  
+  .user-info h3 {
+    margin: 0;
+  }
+  
+  .settings-tab button {
+    padding: 10px 20px;
+    margin-top: 12px;
+    margin-right: 15px; 
+    background-color: #292661;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  .settings-tab button:hover {
+    background-color: white; 
+    color: #292661; 
+  }
+
+  .settings-tab form {
+    margin-top: 20px;
+  }
+  
+  .settings-tab form label {
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  .settings-tab form input {
+    width: calc(100% - 20px); 
+    padding: 8px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc; 
+    border-radius: 10px; 
+  }
+  

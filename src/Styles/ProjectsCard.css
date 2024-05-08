@@ -35,3 +35,11 @@
   cursor: pointer;
   color: rgb(172, 187, 212);
 }
+.cardTitle {
+  text-decoration: none;
+  color: black;
+}
+.title {
+  text-decoration: none;
+  color: black;
+}

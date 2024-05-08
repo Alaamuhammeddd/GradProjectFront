@@ -13,6 +13,10 @@
 } */
 * {
   font-family: "karla", sans-serif;
+  font-size: large;
+}
+body {
+  margin-top: 10px;
 }
 .container {
   display: flex;
@@ -28,6 +32,7 @@
   width: 100%;
   padding: 20px 20px 20px 20px; /* Adjust padding as needed */
   box-sizing: border-box;
+  margin-top: 10px;
 }
 
 .text {
@@ -36,7 +41,8 @@
   padding: 30px 60px 30px 60px; /* Adjust padding as needed */
   box-sizing: border-box; /* Ensure padding is included in width */
   text-align: left;
-  border-radius: 35px; /* Center text */
+  border-radius: 35px;
+  border: 3px solid black;
 }
 .project-stats {
   display: flex;
@@ -48,6 +54,92 @@
   flex-wrap: wrap;
 }
 .project-actions {
-  display: flex;
+  display: block;
   justify-content: flex-end;
 }
+
+.edt-btn {
+  width: 300px;
+  height: 50px;
+  background-color: #b2caed;
+  border-radius: 20px;
+}
+.del-btn {
+  width: 300px;
+  height: 50px;
+  background-color: #e43434;
+  border-radius: 20px;
+}
+.bookmark-btn {
+  width: 300px;
+  height: 50px;
+  background-color: #d6ac22;
+  border-radius: 20px;
+}
+.edt-btn:hover {
+  background-color: #d9e5f9;
+}
+.del-btn:hover {
+  background-color: #e46666;
+}
+.dwnld-btn {
+  width: 300px;
+  height: 50px;
+  background-color: #25c673;
+  border-radius: 20px;
+}
+
+.dwnld-btn:hover {
+  background-color: #93dbb7;
+}
+
+.project-activities {
+  position: absolute;
+  left: 0;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 20px;
+  padding-top: 0;
+}
+
+.project-activities li {
+  text-align: center;
+  list-style-type: none;
+  background-color: #b2caed;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 23px;
+  padding: 30px 30px 30px 30px;
+}
+.project-activities .text {
+  display: inline-block;
+  background-color: #f6f6f6; /* Set background color here */
+  padding: 30px 30px 30px 30px; /* Adjust padding as needed */
+  box-sizing: border-box; /* Ensure padding is included in width */
+  text-align: center;
+  border-radius: 35px;
+  border: 3px solid black;
+}
+.project-comments {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  width: fit-content;
+  padding: 20px 20px 20px 20px; /* Adjust padding as needed */
+  box-sizing: border-box;
+  margin-top: 10px;
+  /* background-color: #c5cd9d; */
+}
+/* .project-comments .text ul li {
+  width: 50px;
+  height: fit-content;
+}
+.project-comments li {
+  display: block;
+}
+.project-comments span {
+  display: inline-block;
+} */
+/* Additional styling for specific sections if needed */
