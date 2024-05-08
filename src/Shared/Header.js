@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "../Assets/Images/Logo.png";
+import logo from "../Assets/Images/Logo (2).png";
 import { Link } from "react-router-dom";
 import { getAuthUser, removeAuthUser } from "../Helper/Storage";
 import { useNavigate } from "react-router-dom";
