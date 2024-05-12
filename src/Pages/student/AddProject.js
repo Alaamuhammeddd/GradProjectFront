@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import axios from "axios"; // Import Axios library
+import React, { useState, useRef } from "react";
+import axios from "axios";
 import {
   Stepper,
   Step,
@@ -7,6 +7,7 @@ import {
   Button,
   withStyles,
 } from "@material-ui/core";
+import { Alert } from "react-bootstrap"; // Import Alert from React Bootstrap
 import ProjectDetails from "./MultiStepForm/ProjectDetails";
 import ProjectInfo from "./MultiStepForm/ProjectInfo";
 import ProjectMembers from "./MultiStepForm/ProjectMembers";
@@ -22,17 +23,26 @@ function AddProject() {
     graduation_term: "",
     graduation_year: null,
     department_name: "",
-    projectFile: "",
     github_link: "",
     regestration_date: "",
     professor_id: null,
-    teammateData: [{ name: "", studentId: null }], // Array of objects with properties name and id
+    teammateData: [{ name: "", studentId: null }],
   });
-
+  // const handleFileChange = (file) => {
+  //   setFormData({ ...formData, projectFile: file });
+  // };
+  const projectFile = useRef(null);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null); // State to manage error message
   const FormComponents = [
     <ProjectDetails formData={formData} setFormData={setFormData} />,
     <ProjectInfo formData={formData} setFormData={setFormData} />,
-    <ProjectFiles formData={formData} setFormData={setFormData} />,
+    <ProjectFiles
+      formData={formData}
+      setFormData={setFormData}
+      projectFile={projectFile}
+      // onFileChange={(selectedFile) => console.log(selectedFile)}
+    />,
     <ProjectMembers formData={formData} setFormData={setFormData} />,
   ];
 
@@ -66,21 +76,55 @@ function AddProject() {
   };
 
   const handleReset = () => {
+    setFormData({
+      title: "",
+      description: "",
+      supervisor_name: "",
+      graduation_term: "",
+      graduation_year: null,
+      department_name: "",
+      github_link: "",
+      regestration_date: "",
+      professor_id: null,
+      teammateData: [{ name: "", studentId: null }],
+    });
+    // Go back to the first ste
     setActiveStep(0);
   };
 
   const handleSubmit = () => {
-    // Submit form data to the backend
-    axios
-      .post("http://localhost:4000/project/create", formData)
-      .then((response) => {
-        console.log(response.data); // Handle success response from backend
-        // Optionally, you can reset the form here
-        // setFormData({ ...initialFormData });
-      })
-      .catch((error) => {
-        console.error("Error:", error); // Handle error
-      });
+    try {
+      const formDataToSend = new FormData();
+      // Append other form fields
+      for (const key in formData) {
+        formDataToSend.append(key, formData[key]);
+      }
+
+      const selectedFile = projectFile.current.files[0];
+      console.log(selectedFile);
+      // Append the selected file to formDataToSend with the key "projectFile"
+      formDataToSend.append("projectFile", selectedFile);
+
+      // Send the request
+      axios
+        .post("http://localhost:4000/project/create", formDataToSend, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          setSuccess("Project Added");
+          handleReset();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          // Handle error
+        });
+    } catch (error) {
+      console.error("Error:", error);
+      // Handle error
+    }
   };
 
   const isLastStep = activeStep === FormTitles.length - 1;
@@ -88,6 +132,8 @@ function AddProject() {
   return (
     <div className="form">
       <div className="form-container">
+        {success && <Alert variant="success">{success}</Alert>}
+        {error && <Alert variant="danger">{error}</Alert>}{" "}
         <ColorStepper activeStep={activeStep} alternativeLabel>
           {FormTitles.map((label) => (
             <Step key={label}>
@@ -110,7 +156,7 @@ function AddProject() {
               className="submit-btn"
               variant="contained"
               color="primary"
-              onClick={handleSubmit} // Call handleSubmit on Submit button click
+              onClick={handleSubmit}
             >
               Submit
             </Button>

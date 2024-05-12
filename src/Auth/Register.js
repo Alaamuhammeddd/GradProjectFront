@@ -93,17 +93,16 @@ const Register = () => {
           />
           {errors.email && <span className="error-msg">{errors.email}</span>}
           <br />
-          <select>
+          <select
+            value={student_department}
+            onChange={(e) => setDepartment(e.target.value)}
+          >
             <option disabled value="">
               Select Department
             </option>
-            <option
-              value={student_department}
-              onChange={(e) => setDepartment(e.target.value)}
-            >
-              Information System
-            </option>
+            <option value="Information Systems">Information Systems</option>
           </select>
+
           {errors.department && (
             <span className="error-msg">{errors.department}</span>
           )}
