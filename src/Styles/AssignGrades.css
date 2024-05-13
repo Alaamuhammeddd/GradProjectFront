@@ -1,0 +1,90 @@
+.dashboard {
+  font-family: Arial, sans-serif;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 70px;
+}
+
+.chart-container {
+  position: absolute;
+  top: 700px;
+  left: 250px;
+}
+
+table {
+  width: 70%;
+  border-collapse: collapse;
+  margin-top: auto;
+  padding-left: 100px;
+}
+
+th,
+td,
+thead {
+  border: 3px solid rgba(223, 220, 220, 0.785);
+  padding: 15px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+h1,
+h2 {
+  margin-bottom: 10px;
+}
+table {
+  width: 70%;
+  border-collapse: collapse;
+  margin-top: auto;
+  padding-left: 100px; /* Adjust this value as needed */
+}
+
+th,
+td,
+thead {
+  border: 3px solid rgba(223, 220, 220, 0.785);
+  padding: 15px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+/* Add borders between columns */
+th:not(:first-child),
+td:not(:first-child) {
+  border-left: 1px solid rgba(223, 220, 220, 0.785);
+}
+table {
+  width: 70%;
+  border-collapse: collapse;
+  margin-top: auto;
+  padding-left: 100px;
+}
+
+th,
+td,
+thead {
+  border: 3px solid rgba(223, 220, 220, 0.785);
+  padding: 15px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+/* Add borders between columns */
+th:not(:first-child),
+td:not(:first-child) {
+  border-left: 1px solid rgba(223, 220, 220, 0.785);
+}
+
+/* Add borders between rows */
+tr:not(:last-child) {
+  border-bottom: 1px solid rgba(223, 220, 220, 0.785);
+}

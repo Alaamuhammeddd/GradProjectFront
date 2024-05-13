@@ -1,0 +1,76 @@
+.project-comments {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  width: fit-content;
+  padding: 100px 100px 100px 100px;
+  box-sizing: border-box;
+  margin-top: 100px;
+  background-color: #c9c0d7;
+}
+/* .project-comments .text ul li {
+    width: 50px;
+    height: fit-content;
+  }
+  .project-comments li {
+    display: block;
+  }
+  .project-comments span {
+    display: inline-block;
+  }
+  */
+.del-btn {
+  display: flex;
+  border: none;
+  background-color: transparent;
+  margin-left: auto;
+}
+.grades-popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.grades-popup {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.close-btn {
+  display: flex;
+  align-items: right;
+  text-align: right;
+  justify-content: right;
+
+  margin-left: auto;
+  border: none;
+  background-color: transparent;
+  width: 20px;
+  height: 30px;
+  font-size: larger;
+}
+.delete-button {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+.cancel-button {
+  background-color: #67727e;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+}

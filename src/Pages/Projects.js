@@ -4,9 +4,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ProjectsCard from "./ProjectsCard";
 import { Link } from "react-router-dom";
-// -
-
+import { getAuthUser } from "../Helper/Storage";
 const Projects = () => {
+  const auth = getAuthUser();
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
@@ -22,9 +22,6 @@ const Projects = () => {
 
   return (
     <>
-      {/* <div className="sidebar" style={{ backgroundColor: "grey" }}>
-        <Sidebar />
-      </div> */}
       <div className="main-content">
         <div className="search-container">
           <input
@@ -33,9 +30,15 @@ const Projects = () => {
             placeholder="&#x1F50E;&#xFE0E; Search"
           />
           <div className="actions">
-            <Link to={"/add-project"}>
-              <button className="add-btn"> Add My Project</button>
-            </Link>
+            {auth &&
+              auth.student_token &&
+              auth.student_token.length >
+                0(
+                  // Render button if user is a student
+                  <Link to={"/add-project"}>
+                    <button className="add-btn"> Add My Project</button>
+                  </Link>
+                )}
           </div>
         </div>
 

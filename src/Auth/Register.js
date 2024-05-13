@@ -4,13 +4,16 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "../Styles/Register.css";
 import { setAuthUser } from "../Helper/Storage";
+import { Alert } from "react-bootstrap"; // Import Alert from React Bootstrap
+
 const Register = () => {
   const [student_id, setStudentid] = useState("");
   const [student_name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [student_department, setDepartment] = useState("");
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState(null);
+  const [success, setSuccess] = useState(null);
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,15 +32,11 @@ const Register = () => {
       console.log("Registration successful:", response.data);
       setAuthUser(response.data);
       navigate("/");
+      setSuccess("Registration Successful");
     } catch (error) {
       console.error("Registration failed:", error.response.data);
       if (error.response.data.errors) {
-        setErrors(
-          error.response.data.errors.reduce((acc, err) => {
-            acc[err.param] = err.msg;
-            return acc;
-          }, {})
-        );
+        setErrors("Registration Failed");
       } else {
         // Handle the case where errors array is not present in the response
         // For example, you could set a generic error message
@@ -48,6 +47,8 @@ const Register = () => {
 
   return (
     <>
+      {success && <Alert variant="success">{success}</Alert>}
+      {errors && <Alert variant="danger">{errors}</Alert>}{" "}
       <div className="register-container">
         <form onSubmit={handleSubmit} className="register-form">
           <h1
@@ -65,11 +66,8 @@ const Register = () => {
             placeholder="Enter Your ID"
             value={student_id}
             onChange={(e) => setStudentid(e.target.value)}
-            className={errors.student_id ? "input-error" : ""}
           />
-          {errors.studentId && (
-            <span className="error-msg">{errors.student_id}</span>
-          )}
+
           <br />
           <input
             type="text"
@@ -77,11 +75,7 @@ const Register = () => {
             placeholder="Name"
             value={student_name}
             onChange={(e) => setName(e.target.value)}
-            className={errors.student_name ? "input-error" : ""}
           />
-          {errors.student_name && (
-            <span className="error-msg">{errors.student_name}</span>
-          )}
           <br />
           <input
             type="email"
@@ -89,9 +83,7 @@ const Register = () => {
             placeholder="Email Address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className={errors.email ? "input-error" : ""}
           />
-          {errors.email && <span className="error-msg">{errors.email}</span>}
           <br />
           <select
             value={student_department}
@@ -103,9 +95,6 @@ const Register = () => {
             <option value="Information Systems">Information Systems</option>
           </select>
 
-          {errors.department && (
-            <span className="error-msg">{errors.department}</span>
-          )}
           <br />
           <input
             type="password"
@@ -113,11 +102,8 @@ const Register = () => {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className={errors.password ? "input-error" : ""}
           />
-          {errors.password && (
-            <span className="error-msg">{errors.password}</span>
-          )}
+
           <br />
           <button className="submitBtn" type="submit">
             Create Account

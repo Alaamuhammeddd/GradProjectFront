@@ -28,9 +28,7 @@ function AddProject() {
     professor_id: null,
     teammateData: [{ name: "", studentId: null }],
   });
-  // const handleFileChange = (file) => {
-  //   setFormData({ ...formData, projectFile: file });
-  // };
+
   const projectFile = useRef(null);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null); // State to manage error message
@@ -119,7 +117,7 @@ function AddProject() {
         })
         .catch((error) => {
           console.error("Error:", error);
-          // Handle error
+          setError("Project Added");
         });
     } catch (error) {
       console.error("Error:", error);

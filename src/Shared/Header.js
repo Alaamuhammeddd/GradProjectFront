@@ -53,7 +53,6 @@ const Header = () => {
                 Projects
               </Link>
             </ul>
-
             <div className="user-info">
               <span className="greeting">
                 Hello, {auth.student_name || "Dr. " + auth.professor_name}
@@ -66,30 +65,47 @@ const Header = () => {
                 ></Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                  <Link className="nav-linkitem" to={"/bookmarked-student"}>
-                    <Dropdown.Item
-                      href="/bookmarked-student"
-                      className="dropdownitm"
-                    >
-                      Bookmarked Projects
-                    </Dropdown.Item>
-                  </Link>
-                  <Link className="nav-linkitem" to={"/my-project"}>
-                    <Dropdown.Item href="/my-project" className="dropdownitm">
-                      View My Project
-                    </Dropdown.Item>
-                  </Link>
-                  <Link className="nav-linkitem" to={"/settings"}>
-                    <Dropdown.Item href="/settings" className="dropdownitm">
-                      Settings
-                    </Dropdown.Item>
-                  </Link>
-
+                  {auth.student_token && auth.student_token.length > 0 ? (
+                    <>
+                      <Link className="nav-linkitem" to={"/bookmarked-student"}>
+                        <Dropdown.Item
+                          href="/bookmarked-student"
+                          className="dropdownitm"
+                        >
+                          Bookmarked Projects
+                        </Dropdown.Item>
+                      </Link>
+                      <Link className="nav-linkitem" to={"/my-project"}>
+                        <Dropdown.Item
+                          href="/my-project"
+                          className="dropdownitm"
+                        >
+                          View My Project
+                        </Dropdown.Item>
+                      </Link>
+                      <Link className="nav-linkitem" to={"/settings"}>
+                        <Dropdown.Item href="/settings" className="dropdownitm">
+                          Settings
+                        </Dropdown.Item>
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link className="nav-linkitem" to={"/prof-dashboard"}>
+                        <Dropdown.Item
+                          href="/professor-dashboard"
+                          className="dropdownitm"
+                        >
+                          Professor Dashboard
+                        </Dropdown.Item>
+                      </Link>
+                    </>
+                  )}
                   <Dropdown.Divider />
                   <Dropdown.Item
                     onClick={Logout}
                     style={{ color: "#D31510" }}
-                    href="/login"
+                    href="/"
                   >
                     <CircumIcon size="20px" name="logout" /> Log Out
                   </Dropdown.Item>
@@ -100,9 +116,30 @@ const Header = () => {
           </>
         ) : (
           <div>
-            <Link to={"/login"}>
-              <button className="lognbtn">Log In</button>
-            </Link>
+            {/* <button className="lognbtn">Log In</button> */}
+            <Dropdown>
+              <Dropdown.Toggle
+                style={{ backgroundColor: "#083f77" }}
+                className="lognbtn"
+                id="dropdown-basic"
+              >
+                Log-In
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Link className="nav-linkitem" to={"/login-prof"}>
+                  <Dropdown.Item href="/login-prof" className="dropdownitm">
+                    Log-in As Professor
+                  </Dropdown.Item>
+                </Link>
+                <Link className="nav-linkitem" to={"/login"}>
+                  <Dropdown.Item href="/login-prof" className="dropdownitm">
+                    Log-in as Student
+                  </Dropdown.Item>
+                </Link>
+              </Dropdown.Menu>
+            </Dropdown>
+
             <Link to={"/register"}>
               <button className="signbtn">Sign Up</button>
             </Link>

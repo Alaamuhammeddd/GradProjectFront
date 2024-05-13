@@ -1,0 +1,126 @@
+.user-table {
+  margin-top: -40px;
+  margin-bottom: 50px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+td {
+  text-align: center;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
+.students-label {
+  margin-right: 690px;
+}
+.admin-panel {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.admin-icon-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.admin-icon-left {
+  display: flex;
+  align-items: center;
+  margin-left: 45px;
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+}
+
+.icon-img-left {
+  width: 70px;
+  height: 60px;
+  margin-right: -500px;
+  margin-top: 5px;
+  padding-left: 400px;
+}
+
+.icon-img-right {
+  width: 60px;
+  height: 40px;
+  margin-top: 5px;
+}
+
+.icon-info-left {
+  margin-left: 530px;
+  margin-top: 35px;
+}
+
+.icon-info-right {
+  margin-left: 10px;
+  margin-bottom: 90px;
+}
+
+.admin-icon p {
+  color: #333;
+  font-size: 16px;
+  margin-top: 5px;
+}
+
+.badge {
+  background-color: #dc3545;
+  color: #fff;
+  border-radius: 50%;
+  padding: 10px 15px;
+  font-size: 12px;
+  margin-left: -20px;
+}
+
+.badgee {
+  background-color: #dc3545;
+  color: #fff;
+  border-radius: 50%;
+  padding: 10px 15px;
+  font-size: 12px;
+  margin-right: 500px;
+  position: relative;
+  top: 130px;
+}
+
+.current {
+  margin-left: -20px;
+}
+
+.deleted {
+  margin-right: 500px;
+  padding-top: 50px;
+  margin-top: 95px;
+}
+
+.admin-icon-left {
+  margin-right: auto;
+}
