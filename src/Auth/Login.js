@@ -5,10 +5,12 @@ import "../Styles/Login.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { setAuthUser } from "../Helper/Storage";
+import { Alert } from "react-bootstrap";
 const LoginProf = () => {
   const [student_id, setStudentid] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState([]);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -21,22 +23,18 @@ const LoginProf = () => {
           password,
         }
       );
-      console.log("Registration successful:", response.data);
+      setSuccess("Log-in Successful");
       setAuthUser(response.data);
       sessionStorage.setItem("authUser", JSON.stringify(response.data));
       navigate("/");
     } catch (error) {
-      console.error("Registration failed:", error.response.data);
-      setErrors(
-        error.response.data.errors.reduce((acc, err) => {
-          acc[err.param] = err.msg;
-          return acc;
-        }, {})
-      );
+      setError("Log-in Failed");
     }
   };
   return (
     <>
+      {success && <Alert variant="success">{success}</Alert>}
+      {error && <Alert variant="danger">{error}</Alert>}{" "}
       <div className="login-container">
         <form onSubmit={handleSubmit} className="login-form">
           <h1
@@ -55,11 +53,8 @@ const LoginProf = () => {
             placeholder="Enter Your ID"
             value={student_id}
             onChange={(e) => setStudentid(e.target.value)}
-            className={errors.student_id ? "input-error" : ""}
           />
-          {errors.studentId && (
-            <span className="error-msg">{errors.student_id}</span>
-          )}
+
           <br />
           <input
             type="password"
@@ -67,11 +62,8 @@ const LoginProf = () => {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className={errors.password ? "input-error" : ""}
           />
-          {errors.password && (
-            <span className="error-msg">{errors.password}</span>
-          )}
+
           <br />
           <button className="submitBtn" type="submit">
             Login

@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import "../Styles/ViewProject.css";
 // import { MdEdit } from "react-icons/md";
 // import { FaTrashAlt } from "react-icons/fa";
+import { FaRegBookmark } from "react-icons/fa";
+
 import { FaDownload } from "react-icons/fa6";
 import { getAuthUser } from "../Helper/Storage";
 import { LuSendHorizonal } from "react-icons/lu";
@@ -13,6 +15,8 @@ const ViewProject = () => {
   const auth = getAuthUser();
   console.log(auth);
   const { projectId } = useParams();
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
   const [projects, setProjects] = useState({
     loading: true,
     result: { title: "" },
@@ -50,7 +54,6 @@ const ViewProject = () => {
     axios
       .get(`http://localhost:4000/project/${projectId}`)
       .then((response) => {
-        // console.log(response);
         setProjects((prevProjects) => ({
           ...prevProjects,
           result: response.data,
@@ -71,14 +74,41 @@ const ViewProject = () => {
     axios
       .get(`http://localhost:4000/comment/show-comments/${projectId}`)
       .then((response) => {
-        console.log(response);
         setComments(response.data.comments);
       })
       .catch((error) => {
         console.error("Error fetching comments:", error);
-        console.log(error);
       });
+
+    const bookmarkStatusFromLocalStorage = localStorage.getItem(
+      `bookmark-${projectId}`
+    );
+    if (bookmarkStatusFromLocalStorage !== null) {
+      setIsBookmarked(bookmarkStatusFromLocalStorage === "true");
+    }
   }, [projectId, newComment]);
+
+  const handleBookmark = () => {
+    axios
+      .post(
+        `http://localhost:4000/bookmark/add-bookmark/${projectId}/${auth.student_id}`
+      )
+      .then((response) => {
+        const bookmarkStatus = response.data.bookmarkStatus;
+        if (bookmarkStatus) {
+          console.log("Bookmark added successfully");
+          setIsBookmarked(bookmarkStatus);
+          localStorage.setItem(`bookmark-${projectId}`, bookmarkStatus); // Update state if bookmark is added
+        } else {
+          console.log("Bookmark removed successfully");
+          localStorage.setItem(`bookmark-${projectId}`, bookmarkStatus);
+          setIsBookmarked(bookmarkStatus); // Update state if bookmark is removed
+        }
+      })
+      .catch((error) => {
+        console.error("Error adding/removing bookmark:", error);
+      });
+  };
 
   const handleAddComment = () => {
     axios
@@ -238,8 +268,17 @@ const ViewProject = () => {
               marginRight: "75px",
             }}
           >
-            <button className="bookmark-btn">
-              <FaBookmark size="20px" /> <strong>Bookmark Project</strong>
+            <button className="bookmark-btn" onClick={handleBookmark}>
+              {isBookmarked ? (
+                <>
+                  <FaBookmark size="20px" /> <strong>Bookmarked</strong>
+                </>
+              ) : (
+                <>
+                  <FaRegBookmark size="20px" />{" "}
+                  <strong>Bookmark Project</strong>
+                </>
+              )}
             </button>
           </div>
           <div

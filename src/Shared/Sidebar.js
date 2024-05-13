@@ -1,5 +1,6 @@
 import React from "react";
 import "../Styles/Sidebar.css";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   return (
@@ -7,11 +8,9 @@ const Sidebar = () => {
       <div className="logo">Dashboard</div>
       <ul className="nav-links">
         <li>
-          <a href="#">Projects</a>
-        </li>
-
-        <li>
-          <a href="#">Accepted Projects</a>
+          <Link style={{}} to={"assign-grades"}>
+            <a href="/assign-grades">Accepted Projects</a>
+          </Link>
         </li>
 
         <li>

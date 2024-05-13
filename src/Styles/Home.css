@@ -119,23 +119,19 @@
   border-radius: 20px;
 }
 
-/* .about button a{
-    display: block;
-    color: aliceblue;
-    text-decoration: none;
-    text-transform: uppercase;
-    font-weight: bold;
-} */
+.about button a {
+  display: block;
+  color: aliceblue;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: bold;
+}
 
 .about button:hover {
   background-color: transparent;
-  color: #292661 !important;
+  color: #292661;
   transition: 0.2s ease-in-out;
 }
-/* .about button:hover a{
-    color: #292661;
+.about button:hover a {
+  color: #292661 !important;
 }
-
-.about button:hover a{
-    background-color: aliceblue;
-} */
