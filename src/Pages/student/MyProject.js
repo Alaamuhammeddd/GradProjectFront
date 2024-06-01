@@ -3,7 +3,7 @@ import axios from "axios";
 import ProjectsCard from "../ProjectsCard";
 import { getAuthUser } from "../../Helper/Storage";
 import "../../Styles/MyProject.css";
-
+import { Link } from "react-router-dom";
 const MyProject = () => {
   const auth = getAuthUser();
   const [project, setProject] = useState([]);
@@ -15,12 +15,13 @@ const MyProject = () => {
     axios
       .get(`http://localhost:4000/student/${auth.student_id}`)
       .then((response) => {
-        setProject(response.data);
+        console.log("Project data:", response.data); // Log the response data
+        setProject([response.data]); // Wrap the response data in an array
       })
       .catch((error) => {
         console.error("Error fetching projects:", error);
       });
-  }, [auth.student_id]); // Trigger the effect whenever auth.student_id changes
+  }, [auth.student_id]);
 
   const fetchGrades = () => {
     axios
@@ -64,34 +65,42 @@ const MyProject = () => {
                   Final Work Grade: {grade.final_work_grade}/
                   {grade.max_final_work_grade}
                 </div>
+                <br />
+                <div>
+                  Overall Grade: {grade.overall_grade}/{grade.max_overall_grade}
+                </div>
               </li>
             ))}
           </ul>
         </div>
       </div>
       <div>
-        {project.length > 0 ? (
+        {project.length === 0 ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "300px",
+            }}
+          >
+            <span style={{ fontWeight: "bold", fontSize: "30px" }}>
+              You don't have a project on GradPath, Add your project here...
+            </span>
+            <Link to={"/add-project"}>
+              <button className="add-btn">Add My Project</button>
+            </Link>
+          </div>
+        ) : (
           <div>
             <div className="projects-grid">
-              {project.map((project) => (
-                <ProjectsCard key={project.project_id} project={project} />
-              ))}
+              {project &&
+                project.map((project) => (
+                  <ProjectsCard key={project.project_id} project={project} />
+                ))}
             </div>
             <div className="grade-container">
               <button onClick={fetchGrades}>View My Grades</button>
             </div>
-          </div>
-        ) : (
-          <div
-            style={{
-              textAlign: "center",
-              fontSize: "40px",
-              marginLeft: "auto",
-              fontWeight: "bold",
-              marginTop: "30px",
-            }}
-          >
-            No projects available
           </div>
         )}
       </div>

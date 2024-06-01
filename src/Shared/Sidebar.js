@@ -8,17 +8,15 @@ const Sidebar = () => {
       <div className="logo">Dashboard</div>
       <ul className="nav-links">
         <li>
-          <Link style={{}} to={"assign-grades"}>
-            <a href="/assign-grades">Accepted Projects</a>
+          <Link to={"accepted-projects"}>
+            <a href="/accepted-projects">Accepted Projects</a>
           </Link>
         </li>
 
         <li>
-          <a href="#">Settings</a>
-        </li>
-
-        <li>
-          <a href="#">Logout</a>
+          <Link to={"/settings"}>
+            <a href="/settings">Settings</a>
+          </Link>
         </li>
       </ul>
     </div>

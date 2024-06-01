@@ -128,7 +128,24 @@ const ViewProject = () => {
         console.error("Error adding comment:", error);
       });
   };
-
+  const handleDownload = () => {
+    axios({
+      url: `http://localhost:4000/download/download/${projectId}`,
+      method: "GET",
+      responseType: "blob",
+    })
+      .then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `${projects.result.title}.zip`); // Change filename as per your requirement
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch((error) => {
+        console.error("Error downloading project:", error);
+      });
+  };
   return (
     <div className="project-container">
       <div
@@ -259,40 +276,45 @@ const ViewProject = () => {
             </p>
           </div>
         </div>
-        <div className="project-actions" style={{ justifyContent: "flex-end" }}>
+        {auth && auth.student_id > 0 && (
           <div
-            style={{
-              display: "block",
-              textAlign: "right",
-              marginBottom: "20px",
-              marginRight: "75px",
-            }}
+            className="project-actions"
+            style={{ justifyContent: "flex-end" }}
           >
-            <button className="bookmark-btn" onClick={handleBookmark}>
-              {isBookmarked ? (
-                <>
-                  <FaBookmark size="20px" /> <strong>Bookmarked</strong>
-                </>
-              ) : (
-                <>
-                  <FaRegBookmark size="20px" />{" "}
-                  <strong>Bookmark Project</strong>
-                </>
-              )}
-            </button>
+            <div
+              style={{
+                display: "block",
+                textAlign: "right",
+                marginBottom: "20px",
+                marginRight: "75px",
+              }}
+            >
+              <button className="bookmark-btn" onClick={handleBookmark}>
+                {isBookmarked ? (
+                  <>
+                    <FaBookmark size="20px" /> <strong>Bookmarked</strong>
+                  </>
+                ) : (
+                  <>
+                    <FaRegBookmark size="20px" />{" "}
+                    <strong>Bookmark Project</strong>
+                  </>
+                )}
+              </button>
+            </div>
           </div>
-          <div
-            style={{
-              display: "block",
-              textAlign: "right",
-              marginBottom: "20px",
-              marginRight: "75px",
-            }}
-          >
-            <button className="dwnld-btn">
-              <FaDownload size="20px" /> <strong>Download Project</strong>
-            </button>
-          </div>
+        )}
+        <div
+          style={{
+            display: "block",
+            textAlign: "right",
+            marginBottom: "20px",
+            marginRight: "75px",
+          }}
+        >
+          <button className="dwnld-btn" onClick={handleDownload}>
+            <FaDownload size="20px" /> <strong>Download Project</strong>
+          </button>
         </div>
       </div>
     </div>

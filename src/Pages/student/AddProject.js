@@ -13,8 +13,9 @@ import ProjectInfo from "./MultiStepForm/ProjectInfo";
 import ProjectMembers from "./MultiStepForm/ProjectMembers";
 import ProjectFiles from "./MultiStepForm/ProjectFiles";
 import "../../Styles/AddProject.css";
-
+import { useNavigate } from "react-router-dom";
 function AddProject() {
+  const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({
     title: "",
@@ -28,6 +29,9 @@ function AddProject() {
     professor_id: null,
     teammateData: [{ name: "", studentId: null }],
   });
+  const handleFileChange = (selectedFile) => {
+    setFormData({ ...formData, projectFile: selectedFile });
+  };
 
   const projectFile = useRef(null);
   const [error, setError] = useState(null);
@@ -35,20 +39,20 @@ function AddProject() {
   const FormComponents = [
     <ProjectDetails formData={formData} setFormData={setFormData} />,
     <ProjectInfo formData={formData} setFormData={setFormData} />,
+    <ProjectMembers formData={formData} setFormData={setFormData} />,
     <ProjectFiles
       formData={formData}
       setFormData={setFormData}
       projectFile={projectFile}
-      // onFileChange={(selectedFile) => console.log(selectedFile)}
+      onFileChange={handleFileChange}
     />,
-    <ProjectMembers formData={formData} setFormData={setFormData} />,
   ];
 
   const FormTitles = [
     "Project Details",
     "Project Info",
-    "Project Files",
     "Project Members",
+    "Project Files",
   ];
 
   const ColorStepper = withStyles({
@@ -89,39 +93,45 @@ function AddProject() {
     // Go back to the first ste
     setActiveStep(0);
   };
+  const handleSubmit = async (event) => {
+    event.preventDefault(); // Prevent default form submission behavior
 
-  const handleSubmit = () => {
     try {
-      const formDataToSend = new FormData();
-      // Append other form fields
-      for (const key in formData) {
-        formDataToSend.append(key, formData[key]);
+      if (projectFile.current && projectFile.current.files.length > 0) {
+        const formDataToSend = new FormData();
+        // Append other form fields
+        for (const key in formData) {
+          formDataToSend.append(key, formData[key]);
+        }
+
+        const projectFileRef = projectFile.current.files[0];
+        console.log(projectFileRef);
+
+        // Append the selected file to formDataToSend with the key "projectFile"
+        formDataToSend.append("projectFile", projectFileRef);
+        console.log(formData);
+
+        // Send the request
+        const response = await axios.post(
+          "http://localhost:4000/project/create",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        console.log(response.data);
+        setSuccess("Project Added");
+        handleReset();
+        navigate("/my-project");
+      } else {
+        setError("No file selected");
       }
-
-      const selectedFile = projectFile.current.files[0];
-      console.log(selectedFile);
-      // Append the selected file to formDataToSend with the key "projectFile"
-      formDataToSend.append("projectFile", selectedFile);
-
-      // Send the request
-      axios
-        .post("http://localhost:4000/project/create", formDataToSend, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((response) => {
-          console.log(response.data);
-          setSuccess("Project Added");
-          handleReset();
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          setError("Project Added");
-        });
     } catch (error) {
       console.error("Error:", error);
-      // Handle error
+      setError("Error occurred while submitting project");
     }
   };
 

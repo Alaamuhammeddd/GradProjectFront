@@ -20,19 +20,25 @@ import { ImStack } from "react-icons/im";
 import { FaArrowTrendUp } from "react-icons/fa6";
 
 import { getAuthUser } from "../../Helper/Storage";
-const Assgingrades = () => {
-  console.log("Assgingrades function called");
-};
+
 const ProfDashboard = () => {
   const [totalProjects, setTotalProjects] = useState(null);
+
   const [requestedProjects, setRequestedProjects] = useState([]);
   const auth = getAuthUser();
-  console.log(auth.professor_id);
+  const professor_token = auth.professor_token;
+
   useEffect(() => {
     // Fetch total projects count
+
     axios
       .get(
-        `http://localhost:4000/count/professor-project-count/${auth.professor_id}`
+        `http://localhost:4000/count/professor-project-count/${auth.professor_id}`,
+        {
+          headers: {
+            token: professor_token,
+          },
+        }
       )
       .then((response) => {
         setTotalProjects(response.data);
@@ -44,7 +50,12 @@ const ProfDashboard = () => {
     // Fetch requested projects
     axios
       .get(
-        `http://localhost:4000/professor/${auth.professor_id}/requested-projects`
+        `http://localhost:4000/professor/${auth.professor_id}/requested-projects`,
+        {
+          headers: {
+            token: professor_token,
+          },
+        }
       )
       .then((response) => {
         setRequestedProjects(response.data);
@@ -63,19 +74,77 @@ const ProfDashboard = () => {
     { title: "May", users: 189, projects: 480 },
     { title: "Jun", users: 239, projects: 380 },
   ];
-  const tableHeaders = [
-    "project_id",
-    "title",
-    "description",
-    "supervisor_name",
-    "graduation_year",
-    "graduation_term",
-    "department_name",
-    "projects_files_path",
-    "github_link",
-    "approval_status",
-  ];
 
+  const handleAcceptProject = (projectId) => {
+    axios
+      .put(
+        `http://localhost:4000/professor/accept/project/${projectId}/${auth.professor_id}`,
+        null, // No request body, so pass null
+        {
+          headers: {
+            token: professor_token,
+          },
+        }
+      )
+      .then((response) => {
+        // Update state or UI as needed
+        console.log(response.data.message);
+        // Refresh the requested projects after accepting
+        axios
+          .get(
+            `http://localhost:4000/professor/${auth.professor_id}/requested-projects`,
+            {
+              headers: {
+                token: professor_token,
+              },
+            }
+          )
+          .then((response) => {
+            setRequestedProjects(response.data);
+          })
+          .catch((error) => {
+            console.error("Error fetching requested projects:", error);
+          });
+      })
+      .catch((error) => {
+        console.error("Error accepting project:", error);
+      });
+  };
+  const handleRejectProject = (projectId) => {
+    axios
+      .put(
+        `http://localhost:4000/professor/reject/project/${projectId}/${auth.professor_id}`,
+        null, // No request body, so pass null
+        {
+          headers: {
+            token: professor_token,
+          },
+        }
+      )
+      .then((response) => {
+        // Update state or UI as needed
+        console.log(response.data.message);
+        // Refresh the requested projects after accepting
+        axios
+          .get(
+            `http://localhost:4000/professor/${auth.professor_id}/requested-projects`,
+            {
+              headers: {
+                token: professor_token,
+              },
+            }
+          )
+          .then((response) => {
+            setRequestedProjects(response.data);
+          })
+          .catch((error) => {
+            console.error("Error fetching requested projects:", error);
+          });
+      })
+      .catch((error) => {
+        console.error("Error accepting project:", error);
+      });
+  };
   return (
     <div
       className="container"
@@ -173,35 +242,67 @@ const ProfDashboard = () => {
           }}
         >
           <h2>All Projects</h2>
-          <table>
-            <thead>
-              <tr>
-                {tableHeaders.map((header) => (
-                  <th key={header}>{header}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {requestedProjects.map((project) => (
-                <tr key={project.project_id}>
-                  {tableHeaders.map((header) => (
-                    <td key={header}>{project[header]}</td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <button
-            className="assginbtn"
-            style={{
-              position: "absolute",
-              left: "1350px",
-              borderRadius: "10px",
-              backgroundColor: "#008767",
-            }}
+          <div
+            className="table"
+            style={{ maxHeight: "500px", overflowY: "auto", overflowX: "auto" }}
           >
-            Assgingrades
-          </button>
+            <table>
+              <thead>
+                <tr>
+                  <th>Project ID</th>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>Supervisor Name</th>
+                  <th>Graduation Year</th>
+                  <th>Graduation Term</th>
+                  <th>Department Name</th>
+                  <th>Projects Files Path</th>
+                  <th>Github Link</th>
+                  <th>Approval Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {requestedProjects.map((project) => (
+                  <tr key={project.project_id}>
+                    <td>{project.project_id}</td>
+                    <td>{project.title}</td>
+                    <td>{project.description}</td>
+                    <td>{project.supervisor_name}</td>
+                    <td>{project.graduation_year}</td>
+                    <td>{project.graduation_term}</td>
+                    <td>{project.department_name}</td>
+                    <td>{project.projects_files_path}</td>
+                    <td>{project.github_link}</td>
+                    <td>{project.approval_status}</td>
+                    <td>
+                      <div style={{ display: "inline-flex" }}>
+                        <button
+                          className="accpt-btn"
+                          style={{ margin: "20px" }}
+                          onClick={() =>
+                            handleAcceptProject(project.project_id)
+                          }
+                        >
+                          Accept
+                        </button>
+                        <button
+                          style={{ margin: "20px" }}
+                          className="rjct-btn"
+                          onClick={() =>
+                            handleRejectProject(project.project_id)
+                          }
+                        >
+                          {" "}
+                          Reject
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
