@@ -1,16 +1,33 @@
-import React from "react";
-import EditProfileTab from "./EditProfileTab";
-import ProfilePhoto from "./ProfilePhoto";
-import Username from "./Username";
-import "./Styles/SettingsTab.css";
-// import "@testing-library/jest-dom/extend-expect";
+import React, { useState } from "react";
+import EditEmail from "./EditEmail";
+import ChangePassword from "./ChangePassword";
+import "./Styles/MainSettings.css";
 
 const MainSettingsPage = () => {
+  const [activeComponent, setActiveComponent] = useState(null);
+
   return (
-    <div className="settings-tab">
-      <ProfilePhoto />
-      <Username />
-      <EditProfileTab />
+    <div className="container">
+      <div className="side-btns">
+        <div className="side-buttons">
+          <button
+            onClick={() => setActiveComponent("editEmail")}
+            className="side-button"
+          >
+            Edit Email
+          </button>
+          <button
+            onClick={() => setActiveComponent("changePassword")}
+            className="side-button"
+          >
+            Change Password
+          </button>
+        </div>
+      </div>
+      <div className="form-group">
+        {activeComponent === "editEmail" && <EditEmail />}
+        {activeComponent === "changePassword" && <ChangePassword />}
+      </div>
     </div>
   );
 };

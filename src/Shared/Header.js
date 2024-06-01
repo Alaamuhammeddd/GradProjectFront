@@ -111,7 +111,6 @@ const Header = () => {
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
-              <CircumIcon name="bell_on" />
             </div>
           </>
         ) : (

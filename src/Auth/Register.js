@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "../Styles/Register.css";
 import { setAuthUser } from "../Helper/Storage";
-import { Alert } from "react-bootstrap"; // Import Alert from React Bootstrap
+import { Alert } from "react-bootstrap";
 
 const Register = () => {
   const [student_id, setStudentid] = useState("");
@@ -14,7 +14,25 @@ const Register = () => {
   const [student_department, setDepartment] = useState("");
   const [errors, setErrors] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [departmentOptions, setDepartmentOptions] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchDepartments = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:4000/admin/show-departments"
+        );
+        const { department_names } = response.data;
+        setDepartmentOptions(department_names);
+      } catch (error) {
+        console.error("Error fetching department names:", error);
+      }
+    };
+
+    fetchDepartments();
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -36,7 +54,7 @@ const Register = () => {
     } catch (error) {
       console.error("Registration failed:", error.response.data);
       if (error.response.data.errors) {
-        setErrors("Registration Failed");
+        setErrors(error.response.data.errors);
       } else {
         // Handle the case where errors array is not present in the response
         // For example, you could set a generic error message
@@ -48,7 +66,7 @@ const Register = () => {
   return (
     <>
       {success && <Alert variant="success">{success}</Alert>}
-      {errors && <Alert variant="danger">{errors}</Alert>}{" "}
+      {errors && <Alert variant="danger">{errors.generic}</Alert>}{" "}
       <div className="register-container">
         <form onSubmit={handleSubmit} className="register-form">
           <h1
@@ -92,7 +110,11 @@ const Register = () => {
             <option disabled value="">
               Select Department
             </option>
-            <option value="Information Systems">Information Systems</option>
+            {departmentOptions.map((department, index) => (
+              <option key={index} value={department}>
+                {department}
+              </option>
+            ))}
           </select>
 
           <br />

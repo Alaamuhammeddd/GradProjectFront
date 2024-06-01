@@ -18,7 +18,13 @@ import Dashboardadmin from "./Pages/admin/Dashboardadmin";
 import Student from "./Middleware/Student";
 import Professor from "./Middleware/Professor";
 import Admin from "./Middleware/Admin";
+import Guest from "./Middleware/Guest";
+import AuthMiddleware from "./Middleware/AuthUser";
 import AssignGrades from "./Pages/professor/AssignGrades";
+import AcceptedProjects from "./Pages/professor/AcceptedProjects";
+import LoginAdmin from "./Pages/admin/LoginAdmin";
+import EditEmail from "./Pages/student/Settings/EditEmail";
+import ChangePassword from "./Pages/student/Settings/ChangePassword";
 
 export const router = createBrowserRouter([
   {
@@ -29,14 +35,7 @@ export const router = createBrowserRouter([
         path: "",
         element: <Home />,
       },
-      {
-        path: "/login",
-        element: <Login />,
-      },
-      {
-        path: "/register",
-        element: <Register />,
-      },
+
       {
         element: <Student />,
         children: [
@@ -67,27 +66,40 @@ export const router = createBrowserRouter([
           },
 
           {
+            path: "assign-grades/:projectId",
+            element: <AssignGrades />,
+          },
+          {
+            path: "prof-dashboard/accepted-projects",
+            element: <AcceptedProjects />,
+          },
+        ],
+      },
+
+      {
+        element: <AuthMiddleware />,
+        children: [
+          {
             path: "/view-project/:projectId",
             element: <ViewProject />,
           },
           {
-            path: "prof-dashboard/assign-grades",
-            element: <AssignGrades />,
+            path: "/projects",
+            element: <Projects />,
+          },
+          {
+            path: "/settings",
+            element: <MainSettingsPage />,
+          },
+          {
+            path: "/settings/edit-email",
+            element: <EditEmail />,
+          },
+          {
+            path: "/settings/change-password",
+            element: <ChangePassword />,
           },
         ],
-      },
-      {
-        path: "/projects",
-        element: <Projects />,
-      },
-
-      {
-        path: "/settings",
-        element: <MainSettingsPage />,
-      },
-      {
-        path: "/login-prof",
-        element: <LoginProf />,
       },
       {
         element: <Admin />,
@@ -95,6 +107,27 @@ export const router = createBrowserRouter([
           {
             path: "/admin-dashboard",
             element: <Dashboardadmin />,
+          },
+        ],
+      },
+      {
+        element: <Guest />,
+        children: [
+          {
+            path: "/login-admin",
+            element: <LoginAdmin />,
+          },
+          {
+            path: "/login-prof",
+            element: <LoginProf />,
+          },
+          {
+            path: "/login",
+            element: <Login />,
+          },
+          {
+            path: "/register",
+            element: <Register />,
           },
         ],
       },

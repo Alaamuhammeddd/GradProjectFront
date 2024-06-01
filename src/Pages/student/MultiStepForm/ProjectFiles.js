@@ -1,28 +1,30 @@
-import react from "react";
-import { useRef } from "react";
+import React from "react";
 import "../../../Styles/AddProject.css";
-function ProjectFiles({ formData, setFormData, projectFile }) {
+
+function ProjectFiles({ formData, projectFile, setFormData, onFileChange }) {
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
+    onFileChange(selectedFile);
     console.log(selectedFile);
   };
+
   return (
     <div className="files-container">
       <div className="form-group">
-        <label for="projectWinRar">Project files (WinRAR)</label>
+        <label htmlFor="projectWinRar">Project files (WinRAR)</label>
         <input
           type="file"
+          name="projectFile"
           className="form-control-file"
           id="projectWinRar"
           ref={projectFile}
-          accept=".rar, .zip"
+          accept=".zip, .rar"
           onChange={handleFileChange}
-          // Initialize value with file name if available
         />
         {formData.projectFile && <span>{formData.projectFile.name}</span>}
       </div>
       <div className="form-group">
-        <label for="projectLinks">Project links (Github)</label>
+        <label htmlFor="projectLinks">Project links (Github)</label>
         <input
           type="text"
           className="form-control-file"

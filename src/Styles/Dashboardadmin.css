@@ -2,7 +2,9 @@ table {
   width: 70%;
   border-collapse: collapse;
   margin-top: auto;
-  padding-left: 100px; /* Adjust this value as needed */
+  padding-left: 100px;
+  max-height: fit-content;
+  overflow-y: auto; /* Adjust this value as needed */
 }
 
 th,
