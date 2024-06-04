@@ -12,6 +12,7 @@ const Home = () => {
   const [totalProjects, setTotalProjects] = useState(null);
   const [totalProfessors, setTotalProfessors] = useState(null);
   const [totalDepartments, setTotalDepartments] = useState(null);
+
   useEffect(() => {
     // Fetch total projects count
     axios
@@ -30,20 +31,24 @@ const Home = () => {
         setTotalDepartments(response.data);
       })
       .catch((error) => {
-        console.error("Error fetching requested projects:", error);
+        console.error("Error fetching department count:", error);
       });
+
+    // Fetch total professors
     axios
       .get("http://localhost:4000/count/count-professors")
       .then((response) => {
         setTotalProfessors(response.data);
       })
       .catch((error) => {
-        console.error("Error fetching requested projects:", error);
+        console.error("Error fetching professors count:", error);
       });
-  });
+  }, []); // Empty dependency array ensures this useEffect runs only once
+
   const addLeadingZero = (number) => {
     return number < 10 ? `0${number}` : number;
   };
+
   return (
     <Fragment>
       <Header />
