@@ -1,0 +1,144 @@
+.reports-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(370px, 1fr));
+  gap: 100px;
+}
+
+.chart-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.chart-card h2 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+
+/* Styles for the grid and card */
+.project-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: left;
+  
+}
+ 
+.project-card {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  width: 250px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+}
+
+/* Delay animation for each card */
+.project-card-0 {
+  background-color: #ff9999; /* Example color */
+  animation: fadeInDrop 0.5s forwards 0.1s;
+}
+
+.project-card-1 {
+  background-color: #99ccff; /* Example color */
+  animation: fadeInDrop 0.5s forwards 0.3s;
+}
+
+.project-card-2 {
+  background-color: #ffcc99; /* Example color */
+  animation: fadeInDrop 0.5s forwards 0.5s;
+}
+
+/* Keyframes for the drop animation */
+@keyframes fadeInDrop {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+} 
+.reports-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.charts {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.chart-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.chart-card {
+  flex: 1;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.chart-card h2 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.project-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.project-card {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  width: 250px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+}
+
+/* Delay animation for each card */
+.project-card-0 {
+  background-color: #ff9999; /* Example color */
+  animation: fadeInDrop 0.5s forwards 0.1s;
+}
+
+.project-card-1 {
+  background-color: #99ccff; /* Example color */
+  animation: fadeInDrop 0.5s forwards 0.3s;
+}
+
+.project-card-2 {
+  background-color: #ffcc99; /* Example color */
+  animation: fadeInDrop 0.5s forwards 0.5s;
+}
+
+/* Keyframes for the drop animation */
+@keyframes fadeInDrop {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

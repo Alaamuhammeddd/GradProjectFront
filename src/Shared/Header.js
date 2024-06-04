@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import logo from "../Assets/Images/Logo (2).png";
 import { Link } from "react-router-dom";
 import { getAuthUser, removeAuthUser } from "../Helper/Storage";
@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import "../Styles/Header.css";
 import Dropdown from "react-bootstrap/Dropdown";
 import CircumIcon from "@klarr-agency/circum-icons-react";
+
 const Header = () => {
   const auth = getAuthUser();
   const navigate = useNavigate();
@@ -55,7 +56,10 @@ const Header = () => {
             </ul>
             <div className="user-info">
               <span className="greeting">
-                Hello, {auth.student_name || "Dr. " + auth.professor_name}
+                Hello,{" "}
+                {auth.student_name ||
+                  (auth.professor_name && "Dr. " + auth.professor_name) ||
+                  auth.admin_name}
               </span>
 
               <Dropdown>
@@ -89,7 +93,8 @@ const Header = () => {
                         </Dropdown.Item>
                       </Link>
                     </>
-                  ) : (
+                  ) : auth.professor_token &&
+                    auth.professor_token.length > 0 ? (
                     <>
                       <Link className="nav-linkitem" to={"/prof-dashboard"}>
                         <Dropdown.Item
@@ -100,7 +105,18 @@ const Header = () => {
                         </Dropdown.Item>
                       </Link>
                     </>
-                  )}
+                  ) : auth.admin_token && auth.admin_token.length > 0 ? (
+                    <>
+                      <Link className="nav-linkitem" to={"/admin-dashboard"}>
+                        <Dropdown.Item
+                          href="/admin-dashboard"
+                          className="dropdownitm"
+                        >
+                          Admin Dashboard
+                        </Dropdown.Item>
+                      </Link>
+                    </>
+                  ) : null}
                   <Dropdown.Divider />
                   <Dropdown.Item
                     onClick={Logout}
@@ -115,7 +131,6 @@ const Header = () => {
           </>
         ) : (
           <div>
-            {/* <button className="lognbtn">Log In</button> */}
             <Dropdown>
               <Dropdown.Toggle
                 style={{ backgroundColor: "#083f77" }}
@@ -132,7 +147,7 @@ const Header = () => {
                   </Dropdown.Item>
                 </Link>
                 <Link className="nav-linkitem" to={"/login"}>
-                  <Dropdown.Item href="/login-prof" className="dropdownitm">
+                  <Dropdown.Item href="/login" className="dropdownitm">
                     Log-in as Student
                   </Dropdown.Item>
                 </Link>

@@ -244,9 +244,15 @@ const ProfDashboard = () => {
           <h2>All Projects</h2>
           <div
             className="table"
-            style={{ maxHeight: "500px", overflowY: "auto", overflowX: "auto" }}
+            style={{ maxHeight: "200px", overflowY: "auto" }}
           >
-            <table>
+            <table
+              className="table"
+              style={{
+                maxHeight: "100px",
+                overflowY: "scroll",
+              }}
+            >
               <thead>
                 <tr>
                   <th>Project ID</th>

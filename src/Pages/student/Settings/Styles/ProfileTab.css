@@ -1,12 +1,14 @@
 .tab-container {
-  padding: 40px;
+  padding: 20px;
   margin: 0 auto;
   max-width: 500px;
-  margin-top: 40px;
+  margin-top: 20px;
   /* background-image: url('../assets/b.jpg'); */
   background-size: cover;
 }
-
+.input-container .passwords-mismatch {
+  border: 2px solid red; /* Example style for indicating password mismatch */
+}
 .profile-tab {
   padding: 20px;
 }
@@ -29,15 +31,16 @@
 }
 
 .email-inputs input {
-  width: calc(100% - 20px);
+  width: 100%;
   margin-bottom: 10px;
   padding: 8px;
   border-radius: 10px;
   border: 1px solid #ccc;
 }
 
-.tab-container button {
+.tab-container .save-btn {
   padding: 10px 20px;
+  width: fit-content;
   background-color: #292661;
   color: #fff;
   border: none;
@@ -47,6 +50,14 @@
   margin-top: 20px;
 }
 
-.tab-container button:hover {
-  background-color: #969696;
+.tab-container .save-btn:hover {
+  border: 3px solid #292661;
+  background-color: transparent;
+  color: #292661;
 }
+.Toastify__toast-body > div:last-child {
+  word-break: unset;
+}
+
+/* Custom CSS for the toast messages */
+/* Custom CSS for the toast messages */

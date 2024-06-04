@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { setAuthUser } from "../../Helper/Storage";
 const LoginAdmin = () => {
-  const [professor_email, setProfessorEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [admin_email, setProfessorEmail] = useState("");
+  const [admin_password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
 
@@ -15,10 +15,10 @@ const LoginAdmin = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:4000/professor/professor-login",
+        "http://localhost:4000/admin/admin-login",
         {
-          professor_email,
-          password,
+          admin_email,
+          admin_password,
         }
       );
       console.log("Registration successful:", response.data);
@@ -53,7 +53,7 @@ const LoginAdmin = () => {
             type="email"
             id="number"
             placeholder="Enter Your Email"
-            value={professor_email}
+            value={admin_email}
             onChange={(e) => setProfessorEmail(e.target.value)}
             className={errors.student_id ? "input-error" : ""}
           />
@@ -65,7 +65,7 @@ const LoginAdmin = () => {
             type="password"
             id="password"
             placeholder="Password"
-            value={password}
+            value={admin_password}
             onChange={(e) => setPassword(e.target.value)}
             className={errors.password ? "input-error" : ""}
           />
