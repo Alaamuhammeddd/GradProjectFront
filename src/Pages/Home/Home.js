@@ -122,7 +122,7 @@ const Home = () => {
                 pursuit of knowledge.
               </p>
               <button>
-                <a href="#" style={{ textDecoration: "none" }}>
+                <a href="/reports" style={{ textDecoration: "none" }}>
                   Learn More
                 </a>
               </button>

@@ -25,7 +25,9 @@ import AcceptedProjects from "./Pages/professor/AcceptedProjects";
 import LoginAdmin from "./Pages/admin/LoginAdmin";
 import EditEmail from "./Pages/student/Settings/EditEmail";
 import ChangePassword from "./Pages/student/Settings/ChangePassword";
-
+import ManageUser from "./Pages/admin/ManageUser";
+import ManageComments from "./Pages/admin/ManageComments";
+import Reports from "./Pages/Home/Reports";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -34,6 +36,10 @@ export const router = createBrowserRouter([
       {
         path: "",
         element: <Home />,
+      },
+      {
+        path: "reports",
+        element: <Reports />,
       },
 
       {
@@ -107,6 +113,14 @@ export const router = createBrowserRouter([
           {
             path: "/admin-dashboard",
             element: <Dashboardadmin />,
+          },
+          {
+            path: "/admin-dashboard/manage-user",
+            element: <ManageUser />,
+          },
+          {
+            path: "/admin-dashboard/manage-comment",
+            element: <ManageComments />,
           },
         ],
       },

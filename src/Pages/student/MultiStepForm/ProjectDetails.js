@@ -1,8 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../../Styles/AddProject.css";
 
 // import "react-datepicker/dist/react-datepicker.css";
 function ProjectDetails({ formData, setFormData }) {
+  const [graduationTerms, setGraduationTerms] = useState([]);
+  useEffect(() => {
+    fetchGraduationTerms();
+  }, []);
+
+  const fetchGraduationTerms = () => {
+    fetch("http://localhost:4000/admin/show-term") // Assuming this route exists on your backend
+      .then((response) => response.json())
+      .then((data) => {
+        setGraduationTerms(data.graduation_term);
+      })
+      .catch((error) =>
+        console.error("Error fetching graduation terms:", error)
+      );
+  };
   const generateYearOptions = () => {
     const startYear = 2000;
     const currentYear = new Date().getFullYear();
@@ -39,7 +54,7 @@ function ProjectDetails({ formData, setFormData }) {
 
       <select
         className="project-details-control"
-        value={formData.graduation_term} // Set value directly from formData
+        value={formData.graduation_term}
         onChange={(event) =>
           setFormData({ ...formData, graduation_term: event.target.value })
         }
@@ -47,9 +62,11 @@ function ProjectDetails({ formData, setFormData }) {
         <option disabled value="">
           Graduation Term
         </option>
-        <option value="June">June</option>
-        <option value="Summer">Summer</option>
-        <option value="January">January</option>
+        {graduationTerms.map((term) => (
+          <option key={term} value={term}>
+            {term}
+          </option>
+        ))}
       </select>
       <select
         className="project-details-control"

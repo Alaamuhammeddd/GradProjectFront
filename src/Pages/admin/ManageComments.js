@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import "../Styles/managecomments.css";
+import "../../Styles/ManageComments.css";
 import { FaTrash } from "react-icons/fa";
-import { getAuthUser } from "../Helper/Storage";
+import { getAuthUser } from "../../Helper/Storage";
 import { LuSendHorizonal } from "react-icons/lu";
-import "../Styles/Sidebar.css";
+import "../../Styles/Sidebar.css";
 
 const Sidebar = () => {
   return (
@@ -13,16 +13,10 @@ const Sidebar = () => {
       <div className="logo">Manage Comments</div>
       <ul className="nav-links">
         <li>
-          <a href="#">User</a>
+          <a href="/admin-dashboard/manage-user">User</a>
         </li>
         <li>
-          <a href="#">Dashboard</a>
-        </li>
-        <li>
-          <a href="#">Settings</a>
-        </li>
-        <li>
-          <a href="#">Logout</a>
+          <a href="/admin-dashboard">Dashboard</a>
         </li>
       </ul>
     </div>
@@ -30,59 +24,45 @@ const Sidebar = () => {
 };
 
 const ManageComments = () => {
+  const [comments, setComments] = useState([]);
   const [showGradesPopup, setShowGradesPopup] = useState(false);
+  const [commentToDelete, setCommentToDelete] = useState(null);
   const handleCloseGradesPopup = () => {
     setShowGradesPopup(false);
   };
 
-  const auth = getAuthUser();
-  const { projectId } = useParams();
-  //   function calculateTimeDifference(timestamp) {
-  //     const commentDate = new Date(timestamp);
-  //     const currentDate = new Date();
-
-  //     const timeDifference = Math.abs(currentDate - commentDate);
-
-  //     const seconds = Math.floor(timeDifference / 1000);
-  //     const minutes = Math.floor(seconds / 60);
-  //     const hours = Math.floor(minutes / 60);
-  //     const days = Math.floor(hours / 24);
-
-  //     if (days > 0) {
-  //       return days === 1 ? "1 day ago" : `${days} days ago`;
-  //     } else if (hours > 0) {
-  //       return hours === 1 ? "1 hour ago" : `${hours} hours ago`;
-  //     } else if (minutes > 0) {
-  //       return minutes === 1 ? "1 minute ago" : `${minutes} minutes ago`;
-  //     } else if (seconds > 0) {
-  //       return seconds === 1 ? "1 second ago" : `${seconds} seconds ago`;
-  //     } else {
-  //       return "Just now";
-  //     }
-  //   }
-
-  const [comments, setComments] = useState([]);
-  const [newComment, setNewComment] = useState("");
-  const handleAddComment = () => {
+  useEffect(() => {
+    // Fetch comments from the backend
     axios
-      .post(`http://localhost:4000/comment/add-comment/${projectId}`, {
-        commenter_id: auth.student_id,
-        commenter_name: auth.student_name,
-        comment_text: newComment,
-      })
+      .get(`http://localhost:4000/admin/comments`)
       .then((response) => {
-        console.log(response);
-        console.log("Comment added successfully");
-        setNewComment("");
-        // Optionally, you can fetch comments again to update the comments list
+        setComments(response.data.comments);
+        console.log("Fetched comments:", response.data.comments); // Log the fetched comments
       })
       .catch((error) => {
-        console.log(error);
-        console.error("Error adding comment:", error);
+        console.error("Error fetching comments:", error);
       });
-  };
-  const handledelete = () => {
+  }, []);
+
+  const handleDelete = (commentId) => {
+    setCommentToDelete(commentId);
     setShowGradesPopup(true);
+  };
+
+  const confirmDelete = () => {
+    axios
+      .delete(`http://localhost:4000/admin/comments/${commentToDelete}`)
+      .then(() => {
+        setComments(
+          comments.filter((comment) => comment.comment_id !== commentToDelete)
+        );
+        setShowGradesPopup(false);
+        setCommentToDelete(null);
+      })
+      .catch((error) => {
+        console.error("Error deleting comment:", error);
+        setShowGradesPopup(false);
+      });
   };
 
   return (
@@ -103,8 +83,15 @@ const ManageComments = () => {
                 the comment and can’t be undone.
               </div>
               <div>
-                <button className="cancel-button">NO,cancel</button>
-                <button className="delete-button">yes, delete</button>
+                <button
+                  className="cancel-button"
+                  onClick={handleCloseGradesPopup}
+                >
+                  NO,cancel
+                </button>
+                <button className="delete-button" onClick={confirmDelete}>
+                  yes, delete
+                </button>
               </div>
             </li>
           </ul>
@@ -115,62 +102,26 @@ const ManageComments = () => {
         <div className="text">
           <h3>Comments</h3>
           <ul>
-            <li
-              style={{
-                marginBottom: "20px",
-                listStyleType: "none",
-                borderBottom: "3px solid #DFE2E8",
-              }}
-            >
-              <span>User</span> 1 hour ago
-              <p>Wonderful</p>
-              <button onClick={handledelete} className="del-btn">
-                <FaTrash color="#dc3545" />
-                Delete
-              </button>
-            </li>
-            <li
-              style={{
-                marginBottom: "20px",
-                listStyleType: "none",
-                borderBottom: "3px solid #DFE2E8",
-              }}
-            >
-              <span>User2</span> 1 hour ago
-              <p>What a wonderful project!</p>
-              <button onClick={handledelete} className="del-btn">
-                <FaTrash color="#dc3545" />
-                Delete
-              </button>
-            </li>
-            <li
-              style={{
-                marginBottom: "20px",
-                listStyleType: "none",
-                borderBottom: "3px solid #DFE2E8",
-              }}
-            >
-              <span>User 3</span> 1 hour ago
-              <p>This is so bad!</p>
-              <button onClick={handledelete} className="del-btn">
-                <FaTrash color="#dc3545" />
-                Delete
-              </button>
-            </li>
-            <li
-              style={{
-                marginBottom: "20px",
-                listStyleType: "none",
-                borderBottom: "3px solid #DFE2E8",
-              }}
-            >
-              <span>User</span> 1 hour ago
-              <p> WOWW !</p>
-              <button onClick={handledelete} className="del-btn">
-                <FaTrash color="#dc3545" />
-                Delete
-              </button>
-            </li>
+            {comments.map((comment) => (
+              <li
+                key={comment.comment_id}
+                style={{
+                  marginBottom: "20px",
+                  listStyleType: "none",
+                  borderBottom: "3px solid #DFE2E8",
+                }}
+              >
+                <span>{comment.commenter_name}</span> 1 hour ago
+                <p>{comment.comment_text}</p>
+                <button
+                  onClick={() => handleDelete(comment.comment_id)}
+                  className="del-btn"
+                >
+                  <FaTrash color="#dc3545" />
+                  Delete
+                </button>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
