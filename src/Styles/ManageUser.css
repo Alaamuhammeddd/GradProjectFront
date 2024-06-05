@@ -1,24 +1,28 @@
 .user-table {
   margin-top: -40px;
   margin-bottom: 50px;
+  overflow-y: scroll;
+  max-height: 650px;
+  width: 80%;
 }
 
-table {
+.user-table table {
   width: 100%;
   border-collapse: collapse;
 }
 
-th,
+.user-table th,
 td {
+  text-align: center;
   padding: 10px;
   border-bottom: 1px solid #ddd;
 }
 
-th {
+.user-table th {
   background-color: #f2f2f2;
 }
 
-td {
+.user-table td {
   text-align: center;
 }
 
@@ -30,9 +34,21 @@ td {
   border-radius: 4px;
   cursor: pointer;
 }
-
+.user-table .add-professor-btn {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 2px solid;
+  background-color: rgb(8, 63, 119);
+  color: #f2f2f2;
+  border-radius: 25px;
+}
 .delete-btn:hover {
   background-color: #c82333;
+}
+
+.modal-container {
+  background-color: #ddd;
+  border: none;
 }
 
 .students-label {
@@ -123,4 +139,11 @@ td {
 
 .admin-icon-left {
   margin-right: auto;
+}
+
+.page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }

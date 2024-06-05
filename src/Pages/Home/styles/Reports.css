@@ -22,17 +22,15 @@
   margin-bottom: 10px;
 }
 
-
-/* Styles for the grid and card */
 .project-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   justify-content: left;
-  
+  max-width: fit-content;
 }
- 
-.project-card {
+
+.report-project-card {
   background-color: #f9f9f9;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -44,29 +42,30 @@
   transition: all 0.5s ease;
 }
 
-/* Delay animation for each card */
-.project-card-0 {
-  background-color: #ff9999; /* Example color */
+.report-project-card-0 {
+  background-color: #ff9999;
   animation: fadeInDrop 0.5s forwards 0.1s;
+  width: fit-content;
 }
 
-.project-card-1 {
-  background-color: #99ccff; /* Example color */
+.report-project-card-1 {
+  background-color: #99ccff;
   animation: fadeInDrop 0.5s forwards 0.3s;
+  width: fit-content;
 }
 
-.project-card-2 {
-  background-color: #ffcc99; /* Example color */
+.report-project-card-2 {
+  background-color: #ffcc99;
   animation: fadeInDrop 0.5s forwards 0.5s;
+  width: fit-content;
 }
 
-/* Keyframes for the drop animation */
 @keyframes fadeInDrop {
   to {
     opacity: 1;
     transform: translateY(0);
   }
-} 
+}
 .reports-container {
   display: flex;
   justify-content: center;
@@ -106,7 +105,7 @@
   margin-bottom: 20px;
 }
 
-.project-card {
+.report-project-card {
   background-color: #f9f9f9;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -118,27 +117,24 @@
   transition: all 0.5s ease;
 }
 
-/* Delay animation for each card */
-.project-card-0 {
-  background-color: #ff9999; /* Example color */
+.report-project-card-0 {
+  background-color: #ff9999;
   animation: fadeInDrop 0.5s forwards 0.1s;
 }
 
-.project-card-1 {
-  background-color: #99ccff; /* Example color */
+.report-project-card-1 {
+  background-color: #99ccff;
   animation: fadeInDrop 0.5s forwards 0.3s;
 }
 
-.project-card-2 {
-  background-color: #ffcc99; /* Example color */
+.report-project-card-2 {
+  background-color: #ffcc99;
   animation: fadeInDrop 0.5s forwards 0.5s;
 }
 
-/* Keyframes for the drop animation */
 @keyframes fadeInDrop {
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
-

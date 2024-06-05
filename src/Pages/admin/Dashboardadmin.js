@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../../Styles/Dashboardadmin.css";
 import "../../Styles/Sidebar.css";
+import { getAuthUser } from "../../Helper/Storage";
 
 const Sidebar = () => {
   return (
@@ -9,16 +10,10 @@ const Sidebar = () => {
       <div className="logo">Dashboard</div>
       <ul className="nav-links">
         <li>
-          <a href="#">User</a>
+          <a href="/admin-dashboard/manage-user">User</a>
         </li>
         <li>
-          <a href="#">Manage Comments</a>
-        </li>
-        <li>
-          <a href="#">Settings</a>
-        </li>
-        <li>
-          <a href="#">Logout</a>
+          <a href="/admin-dashboard/manage-comment">Manage Comments</a>
         </li>
       </ul>
     </div>
@@ -26,7 +21,8 @@ const Sidebar = () => {
 };
 
 const Dashboardadmin = () => {
-  // State for departments and graduation terms
+  const auth = getAuthUser();
+  const admin_token = auth.admin_token;
   const [departments, setDepartments] = useState([]);
   const [graduationTerms, setGraduationTerms] = useState([]);
 
@@ -75,7 +71,12 @@ const Dashboardadmin = () => {
     const fetchPendingProjects = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/admin/pending-projects"
+          "http://localhost:4000/admin/pending-projects",
+          {
+            headers: {
+              token: admin_token,
+            },
+          }
         );
         setProjects(response.data);
       } catch (error) {
@@ -97,6 +98,11 @@ const Dashboardadmin = () => {
           "http://localhost:4000/admin/departments",
           {
             data: { department_name: name },
+          },
+          {
+            headers: {
+              token: admin_token,
+            },
           }
         );
         if (response.status === 200) {
@@ -122,6 +128,11 @@ const Dashboardadmin = () => {
           "http://localhost:4000/admin/departments",
           {
             department_name: newDepartmentName,
+          },
+          {
+            headers: {
+              token: admin_token,
+            },
           }
         );
         if (response.status === 200) {
@@ -151,6 +162,11 @@ const Dashboardadmin = () => {
         const response = await axios.delete(
           "http://localhost:4000/admin/graduation-terms",
           {
+            headers: {
+              token: admin_token,
+            },
+          },
+          {
             data: { graduation_term: name },
           }
         );
@@ -177,6 +193,11 @@ const Dashboardadmin = () => {
           "http://localhost:4000/admin/graduation-terms",
           {
             graduation_term: newTermName,
+          },
+          {
+            headers: {
+              token: admin_token,
+            },
           }
         );
         if (response.status === 200) {

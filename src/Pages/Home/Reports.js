@@ -39,12 +39,23 @@ const AverageStudentGradesByProject = () => {
 };
 
 const MostBookmarkedProjects = () => {
-  // Sample data for demonstration
-  const bookmarkedProjects = [
-    { name: "Title A", bookmarks: 25 },
-    { name: "Title B", bookmarks: 30 },
-    { name: "Title C", bookmarks: 15 },
-  ];
+  const [bookmarkedProjects, setBookmarkedProjects] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:4000/count/most-bookmarked-projects")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setBookmarkedProjects(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching most bookmarked projects:", error);
+      });
+  }, []);
 
   return (
     <div>
@@ -52,32 +63,43 @@ const MostBookmarkedProjects = () => {
       <div className="project-grid">
         {bookmarkedProjects.map((project, index) => (
           <div
-            key={project.name}
-            className={`project-card project-card-${index}`}
+            key={index} // Use index as key if title is not unique
+            className={`report-project-card report-project-card-${index}`}
           >
-            <h3>{project.name}</h3>
-            <p>bookmarks: {project.bookmarks}</p>
+            <h3>{project.title}</h3>
+            <p>bookmarks: {project.bookmark_count}</p>
           </div>
         ))}
       </div>
     </div>
   );
 };
-const TopVotedProjects = () => {
-  // Sample data for demonstration
-  const votedProjects = [
-    { name: "Project A", votes: 150 },
-    { name: "Project B", votes: 120 },
-    { name: "Project C", votes: 100 },
-  ];
 
-  // Data for the bar chart
-  const data = {
-    labels: votedProjects.map((project) => project.name),
+const TopVotedProjects = () => {
+  const [votedProjects, setVotedProjects] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:4000/count/most-voted-projects")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setVotedProjects(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching top voted projects:", error);
+      });
+  }, []);
+
+  const chartData = {
+    labels: votedProjects.map((project) => project.title),
     datasets: [
       {
         label: "Votes",
-        data: votedProjects.map((project) => project.votes),
+        data: votedProjects.map((project) => project.total_votes),
         backgroundColor: [
           "rgba(255, 99, 132, 0.6)",
           "rgba(54, 162, 235, 0.6)",
@@ -93,34 +115,49 @@ const TopVotedProjects = () => {
       <div className="project-grid">
         {votedProjects.map((project, index) => (
           <div
-            key={project.name}
-            className={`project-card project-card-${index}`}
+            key={index}
+            className={`report-project-card report-project-card-${index}`}
           >
-            <h3>{project.name}</h3>
-            <p>Votes: {project.votes}</p>
+            <h3>{project.title}</h3>
+            <p>Votes: {project.total_votes}</p>
           </div>
         ))}
       </div>
-      <ChartComponent title="Top Voted Projects" data={data} chartType={Bar} />
+      <ChartComponent
+        title="Top Voted Projects"
+        data={chartData}
+        chartType={Bar}
+      />
     </div>
   );
 };
 
 const AverageGradesByDepartment = () => {
-  // Sample data for demonstration
-  const gradesByDepartment = [
-    { name: "ComputerScience", averageGrade: 60 },
-    { name: "InformationSystem", averageGrade: 92 },
-    { name: "InternetTecnology", averageGrade: 50 },
-    { name: "ArtificialIntelligence", averageGrade: 75 },
-  ];
+  const [gradesByDepartment, setGradesByDepartment] = useState([]);
 
+  useEffect(() => {
+    fetch("http://localhost:4000/count/average-grades-by-department")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setGradesByDepartment(
+          data.filter((dept) => dept.avg_semester_work_grade !== null)
+        ); // Filter out departments with null grades
+      })
+      .catch((error) => {
+        console.error("Error fetching average grades by department:", error);
+      });
+  }, []);
   const data = {
-    labels: gradesByDepartment.map((dept) => dept.name),
+    labels: gradesByDepartment.map((dept) => dept.department_name),
     datasets: [
       {
         label: "Average Grade",
-        data: gradesByDepartment.map((dept) => dept.averageGrade),
+        data: gradesByDepartment.map((dept) => dept.avg_overall_grade), // Use avg_overall_grade for the data
         backgroundColor: [
           "rgba(255, 99, 132, 0.6)",
           "rgba(255, 206, 86, 0.6)",
@@ -140,23 +177,31 @@ const AverageGradesByDepartment = () => {
   );
 };
 const AverageGradeGivenByProfessor = () => {
-  // Sample data for demonstration
-  const gradesByProfessor = [
-    { name: "Professor A", averageGrade: 68 },
-    { name: "Professor B", averageGrade: 92 },
-    { name: "Professor C", averageGrade: 55 },
-    { name: "Professor D", averageGrade: 99 },
-    { name: "Professor E", averageGrade: 77 },
-  ];
+  const [gradesByProfessor, setGradesByProfessor] = useState([]);
 
-  // Create a dataset for the Bubble chart
+  useEffect(() => {
+    fetch("http://localhost:4000/count/average-grade-by-professor")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setGradesByProfessor(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching average grade by professor:", error);
+      });
+  }, []);
+
   const data = {
     datasets: gradesByProfessor.map((prof, index) => ({
-      label: prof.name,
+      label: `Professor ${prof.professor_name}`,
       data: [
         {
           x: index + 1, // X-axis value
-          y: prof.averageGrade, // Y-axis value
+          y: prof.avg_overall_grade, // Y-axis value
           r: 10, // Radius of the bubble
         },
       ],
@@ -179,24 +224,35 @@ const AverageGradeGivenByProfessor = () => {
   );
 };
 const MostCommentedProjects = () => {
-  // Sample data for demonstration
-  const commentedProjects = [
-    { name: "Project A", comments: 25 },
-    { name: "Project B", comments: 30 },
-    { name: "Project C", comments: 15 },
-  ];
+  const [commentedProjects, setCommentedProjects] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:4000/count/most-commented-projects")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setCommentedProjects(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching most commented projects:", error);
+      });
+  }, []);
 
   return (
     <div>
       <h2>Top 3 Commented Projects</h2>
       <div className="project-grid">
-        {commentedProjects.slice(0, 3).map((project, index) => (
+        {commentedProjects.map((project, index) => (
           <div
-            key={project.name}
-            className={`project-card project-card-${index}`}
+            key={index}
+            className={`report-project-card report-project-card-${index}`}
           >
-            <h3>{project.name}</h3>
-            <p>Comments: {project.comments}</p>
+            <h3>{project.title}</h3>
+            <p>Comments: {project.comment_count}</p>
           </div>
         ))}
       </div>
@@ -205,7 +261,6 @@ const MostCommentedProjects = () => {
 };
 
 const AverageGradeBySemester = () => {
-  // Sample data for demonstration
   const gradesBySemester = [
     { name: "Semester 1", averageGrade: 75 },
     { name: "Semester 2", averageGrade: 60 },
@@ -235,34 +290,43 @@ const AverageGradeBySemester = () => {
   );
 };
 const AverageGradesByYearAndDepartment = () => {
-  // Sample data for demonstration
-  const gradesByYearAndDepartment = [
-    { year: 2020, department: "Computer Science", averageGrade: 85 },
-    { year: 2020, department: "Information Systems", averageGrade: 78 },
-    { year: 2020, department: "Artificial Intelligence", averageGrade: 92 },
-    { year: 2021, department: "Computer Science", averageGrade: 88 },
-    { year: 2021, department: "Information Systems", averageGrade: 81 },
-    { year: 2021, department: "Artificial Intelligence", averageGrade: 94 },
-    { year: 2022, department: "Computer Science", averageGrade: 90 },
-    { year: 2022, department: "Information Systems", averageGrade: 85 },
-    { year: 2022, department: "Artificial Intelligence", averageGrade: 96 },
-  ];
+  const [gradesByYearAndDepartment, setGradesByYearAndDepartment] = useState(
+    []
+  );
 
-  // Prepare data for the stacked bar chart
+  useEffect(() => {
+    fetch("http://localhost:4000/count/average-grades-by-year")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setGradesByYearAndDepartment(data);
+      })
+      .catch((error) => {
+        console.error(
+          "Error fetching average grades by year and department:",
+          error
+        );
+      });
+  }, []);
+
   const years = [
     ...new Set(gradesByYearAndDepartment.map((item) => item.year)),
   ];
   const departments = [
-    ...new Set(gradesByYearAndDepartment.map((item) => item.department)),
+    ...new Set(gradesByYearAndDepartment.map((item) => item.department_name)),
   ];
 
   const datasets = departments.map((department, index) => ({
     label: department,
     data: years.map((year) => {
       const gradeData = gradesByYearAndDepartment.find(
-        (item) => item.year === year && item.department === department
+        (item) => item.year === year && item.department_name === department
       );
-      return gradeData ? gradeData.averageGrade : 0;
+      return gradeData ? gradeData.avg_overall_grade : 0;
     }),
     backgroundColor: [
       "rgba(255, 99, 132, 0.6)",
@@ -297,32 +361,50 @@ const AverageGradesByYearAndDepartment = () => {
 };
 
 const AverageGradeByGraduationYear = () => {
-  // Sample data for demonstration
-  const gradesByGraduationYear = [
-    { year: "2019", averageGrade: 75 },
-    { year: "2020", averageGrade: 60 },
-    { year: "2021", averageGrade: 80 },
-    { year: "2022", averageGrade: 92 },
-  ];
+  const [gradesByYear, setGradesByYear] = useState([]);
+
+  useEffect(() => {
+    fetch("/average-grades-by-graduation-year")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setGradesByYear(data);
+      })
+      .catch((error) => {
+        console.error(
+          "Error fetching average grades by graduation year:",
+          error
+        );
+      });
+  }, []);
 
   const data = {
-    labels: gradesByGraduationYear.map((item) => item.year),
+    labels: gradesByYear.map((item) => item.year),
     datasets: [
       {
-        label: "Average Grade",
-        data: gradesByGraduationYear.map((item) => item.averageGrade),
+        label: "Average Semester Work Grade",
+        data: gradesByYear.map((item) => item.avg_semester_work_grade),
+        backgroundColor: "rgba(255, 99, 132, 0.6)",
+        borderColor: "rgba(255, 99, 132, 1)",
+        fill: false,
+      },
+      {
+        label: "Average Final Work Grade",
+        data: gradesByYear.map((item) => item.avg_final_work_grade),
+        backgroundColor: "rgba(54, 162, 235, 0.6)",
+        borderColor: "rgba(54, 162, 235, 1)",
+        fill: false,
+      },
+      {
+        label: "Average Overall Grade",
+        data: gradesByYear.map((item) => item.avg_overall_grade),
         backgroundColor: "rgba(75, 192, 192, 0.6)",
         borderColor: "rgba(75, 192, 192, 1)",
         fill: false,
-        pointBackgroundColor: "rgba(75, 192, 192, 1)",
-        pointBorderColor: "rgba(75, 192, 192, 1)",
-        pointBorderWidth: 2,
-        pointHoverRadius: 5,
-        pointHoverBackgroundColor: "rgba(75, 192, 192, 0.8)",
-        pointHoverBorderColor: "rgba(220, 220, 220, 1)",
-        pointHoverBorderWidth: 2,
-        pointRadius: 5,
-        pointHitRadius: 10,
       },
     ],
   };
@@ -336,21 +418,30 @@ const AverageGradeByGraduationYear = () => {
   );
 };
 const SuccessRateByDepartment = () => {
-  // Sample data for demonstration
-  const successRateData = [
-    { department: "Computer Science", successRate: 80 },
-    { department: "Information Systems", successRate: 70 },
-    { department: "Artificial Intelligence", successRate: 92 },
-    { department: "Cyber Security", successRate: 68 },
-    { department: "Software Engineering", successRate: 50 },
-  ];
+  const [successRateData, setSuccessRateData] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:4000/count/success-rate-by-department")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setSuccessRateData(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching success rate by department:", error);
+      });
+  }, []);
 
   const data = {
-    labels: successRateData.map((item) => item.department),
+    labels: successRateData.map((item) => item.department_name),
     datasets: [
       {
         label: "Success Rate",
-        data: successRateData.map((item) => item.successRate),
+        data: successRateData.map((item) => item.success_rate),
         backgroundColor: [
           "rgba(255, 99, 132, 0.6)",
           "rgba(54, 162, 235, 0.6)",
@@ -379,21 +470,30 @@ const SuccessRateByDepartment = () => {
   );
 };
 const FailureRateByDepartment = () => {
-  // Sample data for demonstration
-  const failureRateData = [
-    { department: "Computer Science", failureRate: 15 },
-    { department: "Information Systems", failureRate: 22 },
-    { department: "Artificial Intelligence", failureRate: 8 },
-    { department: "Cyber Security", failureRate: 12 },
-    { department: "Software Engineering", failureRate: 20 },
-  ];
+  const [failureRateData, setFailureRateData] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:4000/count/failure-rate-by-department")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setFailureRateData(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching failure rate by department:", error);
+      });
+  }, []);
 
   const data = {
-    labels: failureRateData.map((item) => item.department),
+    labels: failureRateData.map((item) => item.department_name),
     datasets: [
       {
         label: "Failure Rate",
-        data: failureRateData.map((item) => item.failureRate),
+        data: failureRateData.map((item) => item.failure_rate),
         backgroundColor: [
           "rgba(255, 99, 132, 0.6)",
           "rgba(54, 162, 235, 0.6)",

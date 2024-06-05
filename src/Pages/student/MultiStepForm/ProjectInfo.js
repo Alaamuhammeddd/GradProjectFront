@@ -25,7 +25,7 @@ function ProjectInfo({ formData, setFormData }) {
     const fetchDepartments = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/show-departments"
+          "http://localhost:4000/admin/show-departments"
         );
         const { department_names } = response.data;
         setDepartmentOptions(department_names);
