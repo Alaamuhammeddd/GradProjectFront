@@ -262,8 +262,7 @@ const ProfDashboard = () => {
                   <th>Graduation Year</th>
                   <th>Graduation Term</th>
                   <th>Department Name</th>
-                  <th>Projects Files Path</th>
-                  <th>Github Link</th>
+
                   <th>Approval Status</th>
                   <th>Actions</th>
                 </tr>
@@ -278,8 +277,7 @@ const ProfDashboard = () => {
                     <td>{project.graduation_year}</td>
                     <td>{project.graduation_term}</td>
                     <td>{project.department_name}</td>
-                    <td>{project.projects_files_path}</td>
-                    <td>{project.github_link}</td>
+
                     <td>{project.approval_status}</td>
                     <td>
                       <div style={{ display: "inline-flex" }}>

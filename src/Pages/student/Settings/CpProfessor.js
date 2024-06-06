@@ -4,7 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, useParams } from "react-router-dom";
 
-const ChangePassword = () => {
+const CpProfessor = () => {
   const navigate = useNavigate();
   const { resetToken } = useParams();
 
@@ -19,7 +19,7 @@ const ChangePassword = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:4000/auth/reset-password/${resetToken}`,
+        `http://localhost:4000/professor/reset-professor-password/${resetToken}`,
         {
           password: newPassword,
         }
@@ -28,7 +28,7 @@ const ChangePassword = () => {
       if (response.status === 200) {
         toast.success("Password updated successfully");
         setTimeout(() => {
-          navigate("/login");
+          navigate("/login-prof");
         }, 3000); // Give the user 3 seconds to see the success message
       }
     } catch (error) {
@@ -63,4 +63,4 @@ const ChangePassword = () => {
   );
 };
 
-export default ChangePassword;
+export default CpProfessor;

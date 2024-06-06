@@ -1,11 +1,10 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "../Styles/Login.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { setAuthUser } from "../Helper/Storage";
 import { Alert } from "react-bootstrap";
+
 const LoginProf = () => {
   const [student_id, setStudentid] = useState("");
   const [password, setPassword] = useState("");
@@ -28,13 +27,19 @@ const LoginProf = () => {
       sessionStorage.setItem("authUser", JSON.stringify(response.data));
       navigate("/");
     } catch (error) {
-      setError("Log-in Failed");
+      if (error.response && error.response.data && error.response.data.errors) {
+        const errorMessage = error.response.data.errors[0].msg;
+        setError(errorMessage);
+      } else {
+        setError("Login Failed. Please try again.");
+      }
     }
   };
+
   return (
     <>
       {success && <Alert variant="success">{success}</Alert>}
-      {error && <Alert variant="danger">{error}</Alert>}{" "}
+      {error && <Alert variant="danger">{error}</Alert>}
       <div className="login-container">
         <form onSubmit={handleSubmit} className="login-form">
           <h1
@@ -44,8 +49,7 @@ const LoginProf = () => {
               marginBottom: "60px",
             }}
           >
-            {" "}
-            Login Here{" "}
+            Login Here
           </h1>
           <input
             type="text"
@@ -54,7 +58,6 @@ const LoginProf = () => {
             value={student_id}
             onChange={(e) => setStudentid(e.target.value)}
           />
-
           <br />
           <input
             type="password"
@@ -63,13 +66,12 @@ const LoginProf = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-
           <br />
           <button className="submitBtn" type="submit">
             Login
           </button>
           <p style={{ fontWeight: "bold" }}>
-            <Link className="LoginLink" to={"/login"}>
+            <Link className="LoginLink" to={"/forget-password-student"}>
               Forgot Password?
             </Link>
           </p>

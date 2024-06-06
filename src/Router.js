@@ -28,6 +28,9 @@ import ChangePassword from "./Pages/student/Settings/ChangePassword";
 import ManageUser from "./Pages/admin/ManageUser";
 import ManageComments from "./Pages/admin/ManageComments";
 import Reports from "./Pages/Home/Reports";
+import ForgetPassword from "./Pages/student/Settings/ForgetPassword";
+import FPprofessor from "./Pages/student/Settings/FPprofessor";
+import CpProfessor from "./Pages/student/Settings/CpProfessor";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -101,10 +104,6 @@ export const router = createBrowserRouter([
             path: "/settings/edit-email",
             element: <EditEmail />,
           },
-          {
-            path: "/settings/change-password",
-            element: <ChangePassword />,
-          },
         ],
       },
       {
@@ -142,6 +141,22 @@ export const router = createBrowserRouter([
           {
             path: "/register",
             element: <Register />,
+          },
+          {
+            path: "/forget-password-student",
+            element: <ForgetPassword />,
+          },
+          {
+            path: "/forget-password-prof",
+            element: <FPprofessor />,
+          },
+          {
+            path: "/change-password/:resetToken",
+            element: <ChangePassword />,
+          },
+          {
+            path: "/change-password-prof/:resetToken",
+            element: <CpProfessor />,
           },
         ],
       },

@@ -178,7 +178,11 @@ const AssignGrades = () => {
               </tbody>
             </table>
           </div>
-          <button onClick={handleSaveData} style={{ margin: "10px" }}>
+          <button
+            onClick={handleSaveData}
+            style={{ margin: "10px" }}
+            className="save-btn"
+          >
             Save Data
           </button>
         </div>

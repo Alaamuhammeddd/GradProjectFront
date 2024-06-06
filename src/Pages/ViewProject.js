@@ -2,10 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import "../Styles/ViewProject.css";
-// import { MdEdit } from "react-icons/md";
-// import { FaTrashAlt } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa";
-
 import { FaDownload } from "react-icons/fa6";
 import { getAuthUser } from "../Helper/Storage";
 import { LuSendHorizonal } from "react-icons/lu";
@@ -22,6 +19,7 @@ const ViewProject = () => {
     result: { title: "" },
     err: null,
   });
+
   function calculateTimeDifference(timestamp) {
     const commentDate = new Date(timestamp);
     const currentDate = new Date();
@@ -98,7 +96,7 @@ const ViewProject = () => {
         if (bookmarkStatus) {
           console.log("Bookmark added successfully");
           setIsBookmarked(bookmarkStatus);
-          localStorage.setItem(`bookmark-${projectId}`, bookmarkStatus); // Update state if bookmark is added
+          localStorage.setItem(`bookmark-${projectId}`, bookmarkStatus);
         } else {
           console.log("Bookmark removed successfully");
           localStorage.setItem(`bookmark-${projectId}`, bookmarkStatus);
@@ -111,6 +109,11 @@ const ViewProject = () => {
   };
 
   const handleAddComment = () => {
+    if (newComment.trim() === "") {
+      // alert("Comment cannot be empty!");
+      return;
+    }
+
     axios
       .post(`http://localhost:4000/comment/add-comment/${projectId}`, {
         commenter_id: auth.student_id,
@@ -128,6 +131,7 @@ const ViewProject = () => {
         console.error("Error adding comment:", error);
       });
   };
+
   const handleDownload = () => {
     axios({
       url: `http://localhost:4000/download/download/${projectId}`,
@@ -146,40 +150,97 @@ const ViewProject = () => {
         console.error("Error downloading project:", error);
       });
   };
+
   return (
     <div className="project-container">
       <div
         className="project-activities"
         style={{ justifyContent: "flex-start", marginTop: "70px" }}
       >
-        <div className="text">
-          <h3 style={{ textAlign: "left", marginBottom: "30px" }}>
-            Project Activities
-          </h3>
-          <ul>
-            <li>
-              <span>Username</span> Liked Project
-              <br />
-              <span>Activity: 12/04/2021, 6:37 p.m</span>
-            </li>
-            <li>
-              <span>Username</span> Liked Project
-              <br />
-              <span>Activity: 12/04/2021, 6:37 p.m</span>
-            </li>
-            <li>
-              <span>Username</span> Liked Project
-              <br />
-              <span>Activity: 12/04/2021, 6:37 p.m</span>
-            </li>
-            <li>
-              <span>Username</span> Liked Project
-              <br />
-              <span>Activity: 12/04/2021, 6:37 p.m</span>
-            </li>
-          </ul>
+        <div className="project-stats">
+          <div className="text">
+            <p>
+              <span>
+                <strong>
+                  {" "}
+                  Supervisor : {projects.result.supervisor_name}{" "}
+                </strong>
+              </span>
+            </p>
+            <p>
+              <strong>
+                {" "}
+                <span>Graduation Year : </span>{" "}
+                {projects.result.graduation_year}{" "}
+              </strong>
+            </p>
+            <p>
+              <strong>
+                {" "}
+                <span>Graduation Term :</span> {projects.result.graduation_term}{" "}
+              </strong>
+            </p>
+            <p>
+              <strong>
+                {" "}
+                <span>Total Votes:</span> {projects.result.total_votes}{" "}
+              </strong>
+            </p>
+            <p>
+              <strong>
+                {" "}
+                <span>Department :</span> {projects.result.department_name}{" "}
+              </strong>
+            </p>
+          </div>
+        </div>
+        <div
+          className="project-actions"
+          style={{
+            justifyContent: "flex-start",
+
+            display: "block",
+          }}
+        >
+          {auth && auth.student_id > 0 && (
+            <div
+              style={{
+                display: "block",
+                textAlign: "left",
+                marginBottom: "20px",
+                marginRight: "75px",
+              }}
+            >
+              <button className="bookmark-btn" onClick={handleBookmark}>
+                {isBookmarked ? (
+                  <>
+                    <FaBookmark size="20px" /> <strong>Bookmarked</strong>
+                  </>
+                ) : (
+                  <>
+                    <FaRegBookmark size="20px" />{" "}
+                    <strong>Bookmark Project</strong>
+                  </>
+                )}
+              </button>
+            </div>
+          )}
+          <div
+            style={{
+              display: "block",
+              textAlign: "left",
+              marginBottom: "20px",
+              marginRight: "75px",
+              marginTop: "20px",
+            }}
+          >
+            <button className="dwnld-btn" onClick={handleDownload}>
+              <FaDownload size="20px" /> <strong>Download Project</strong>
+            </button>
+          </div>
         </div>
       </div>
+
       <div className="project-header">
         <div
           style={{ display: "inline-block", marginTop: "50px" }}
@@ -227,94 +288,23 @@ const ViewProject = () => {
               ))}
             </ul>
           )}
-          <input
-            type="text"
-            placeholder="Add a comment..."
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-          ></input>{" "}
-          <button style={{ border: "none" }}>
-            <LuSendHorizonal size="30px" onClick={handleAddComment} />
-          </button>
-        </div>
-      </div>
-      <div className="project-details">
-        <div className="project-stats">
-          <div className="text">
-            <p>
-              <span>
-                <strong>
-                  {" "}
-                  Supervisor : {projects.result.supervisor_name}{" "}
-                </strong>
-              </span>
-            </p>
-            <p>
-              <strong>
-                {" "}
-                <span>Graduation Year : </span>{" "}
-                {projects.result.graduation_year}{" "}
-              </strong>
-            </p>
-            <p>
-              <strong>
-                {" "}
-                <span>Graduation Term :</span> {projects.result.graduation_term}{" "}
-              </strong>
-            </p>
-            <p>
-              <strong>
-                {" "}
-                <span>Total Votes:</span> {projects.result.total_votes}{" "}
-              </strong>
-            </p>
-            <p>
-              <strong>
-                {" "}
-                <span>Department :</span> {projects.result.department_name}{" "}
-              </strong>
-            </p>
-          </div>
-        </div>
-        {auth && auth.student_id > 0 && (
-          <div
-            className="project-actions"
-            style={{ justifyContent: "flex-end" }}
-          >
-            <div
-              style={{
-                display: "block",
-                textAlign: "right",
-                marginBottom: "20px",
-                marginRight: "75px",
-              }}
-            >
-              <button className="bookmark-btn" onClick={handleBookmark}>
-                {isBookmarked ? (
-                  <>
-                    <FaBookmark size="20px" /> <strong>Bookmarked</strong>
-                  </>
-                ) : (
-                  <>
-                    <FaRegBookmark size="20px" />{" "}
-                    <strong>Bookmark Project</strong>
-                  </>
-                )}
+          {auth && auth.student_id > 0 ? (
+            <>
+              <input
+                type="text"
+                placeholder="Add a comment..."
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+              ></input>{" "}
+              <button style={{ border: "none" }}>
+                <LuSendHorizonal size="30px" onClick={handleAddComment} />
               </button>
-            </div>
-          </div>
-        )}
-        <div
-          style={{
-            display: "block",
-            textAlign: "right",
-            marginBottom: "20px",
-            marginRight: "75px",
-          }}
-        >
-          <button className="dwnld-btn" onClick={handleDownload}>
-            <FaDownload size="20px" /> <strong>Download Project</strong>
-          </button>
+            </>
+          ) : (
+            <p style={{ textAlign: "center", fontSize: "18px", color: "red" }}>
+              Log in as a student to add a comment.
+            </p>
+          )}
         </div>
       </div>
     </div>

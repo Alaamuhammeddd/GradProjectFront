@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import EditEmail from "./EditEmail";
-import ChangePassword from "./ChangePassword";
 import "./Styles/MainSettings.css";
 // import Sidebar from "../../../Shared/Sidebar.js";
 import "../../../Styles/Sidebar.css";
@@ -24,7 +23,7 @@ const Sidebar = ({ isAdminOrProfessor }) => {
 const MainSettingsPage = () => {
   const auth = getAuthUser();
   const [activeComponent, setActiveComponent] = useState(null);
-  const isAdminOrProfessor = auth && auth.professor_token !== null;
+  const isAdminOrProfessor = auth && auth.professor_id > 0;
 
   return (
     <>
@@ -42,17 +41,10 @@ const MainSettingsPage = () => {
             >
               Edit Email
             </button>
-            <button
-              onClick={() => setActiveComponent("changePassword")}
-              className="side-button"
-            >
-              Change Password
-            </button>
           </div>
         </div>
         <div className="form-group">
-          {activeComponent === "editEmail" && <EditEmail />}
-          {activeComponent === "changePassword" && <ChangePassword />}
+          <EditEmail />
         </div>
       </div>
     </>
