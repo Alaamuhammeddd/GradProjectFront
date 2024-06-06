@@ -22,13 +22,6 @@ const BookmarkedProjects = () => {
 
   return (
     <>
-      <div className="search-container">
-        <input
-          className="searchInput"
-          type="search"
-          placeholder="&#x1F50E;&#xFE0E; Search"
-        />
-      </div>
       <div className="projects-grid">
         {projects.map((project) => (
           <ProjectsCard key={project.project_id} project={project} />

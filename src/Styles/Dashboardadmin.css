@@ -4,7 +4,7 @@ table {
   margin-top: auto;
   padding-left: 100px;
   max-height: fit-content;
-  overflow-y: auto; /* Adjust this value as needed */
+  overflow-y: auto;
 }
 
 th,
@@ -43,4 +43,22 @@ th {
 
 .table-section .table-container {
   max-height: 400px;
+}
+
+.add-btn {
+  padding: 5px;
+  width: fit-content;
+  background-color: #292661;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+
+.add-btn:hover {
+  border: 2px solid #292661;
+  background-color: transparent;
+  color: #292661;
 }

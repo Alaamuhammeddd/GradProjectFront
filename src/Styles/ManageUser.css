@@ -54,11 +54,6 @@ td {
 .students-label {
   margin-right: 690px;
 }
-.admin-panel {
-  display: flex;
-  justify-content: space-between;
-  padding: 5px;
-}
 
 .admin-icon-right {
   display: flex;

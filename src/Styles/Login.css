@@ -2,10 +2,19 @@ body {
   /* background-image: url("../Assets/Images/bg.jpg"); */
   background-repeat: no-repeat;
   background-size: cover;
-  height: max-content;
+  /* height: max-content; */
 }
 .LoginLink {
   text-decoration: none;
+}
+
+.login-container input[type="email"],
+select {
+  width: 500px;
+  height: 55px;
+  padding: 10px;
+  border-radius: 13px;
+  background-color: #5858582c;
 }
 .LoginLink:hover {
   color: #8e8888;

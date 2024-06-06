@@ -15,6 +15,54 @@
   font-family: "karla", sans-serif;
   font-size: large;
 }
+.project-activities {
+  display: flex;
+  flex-direction: column; /* Change from row to column */
+  margin-top: 70px;
+}
+
+.project-stats {
+  margin-bottom: 20px; /* Add some margin at the bottom for spacing */
+}
+
+.project-actions {
+  display: flex;
+  flex-direction: column;
+}
+
+.project-actions .button-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.bookmark-btn,
+.dwnld-btn {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border: none;
+  background-color: #007bff;
+  color: #000;
+  cursor: pointer;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.bookmark-btn strong,
+.dwnld-btn strong {
+  margin-left: 10px;
+}
+
+.bookmark-btn:hover {
+  background-color: #f1d67c;
+}
+.dwnld-btn:hover {
+  background-color: #93dbb7;
+}
+
 body {
   margin-top: 10px;
 }
@@ -43,6 +91,7 @@ body {
   text-align: left;
   border-radius: 35px;
   border: 3px solid black;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 .project-stats {
   display: flex;
@@ -87,10 +136,6 @@ body {
   height: 50px;
   background-color: #25c673;
   border-radius: 20px;
-}
-
-.dwnld-btn:hover {
-  background-color: #93dbb7;
 }
 
 .project-activities {

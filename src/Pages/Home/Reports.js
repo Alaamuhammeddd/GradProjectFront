@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Bubble, Bar, Pie, Line, Doughnut } from "react-chartjs-2";
 import "chart.js/auto"; // Ensure you have this import to avoid potential issues with chart.js
 import "./styles/Reports.css";
-
+import axios from "axios";
 const ChartComponent = ({ title, data, chartType: ChartType }) => (
   <div style={{ maxWidth: "500px", margin: "20px auto" }}>
     <h2 style={{ fontSize: "1.5rem", marginBottom: "10px" }}>{title}</h2>
@@ -10,33 +10,33 @@ const ChartComponent = ({ title, data, chartType: ChartType }) => (
   </div>
 );
 
-const AverageStudentGradesByProject = () => {
-  // Sample data for demonstration
-  const studentGrades = [
-    { name: "Project A", averageGrade: 65 },
-    { name: "Project B", averageGrade: 90 },
-    { name: "Project C", averageGrade: 48 },
-  ];
+// const AverageStudentGradesByProject = () => {
+//   // Sample data for demonstration
+//   const studentGrades = [
+//     { name: "Project A", averageGrade: 65 },
+//     { name: "Project B", averageGrade: 90 },
+//     { name: "Project C", averageGrade: 48 },
+//   ];
 
-  const data = {
-    labels: studentGrades.map((project) => project.name),
-    datasets: [
-      {
-        label: "Average Grade",
-        data: studentGrades.map((project) => project.averageGrade),
-        backgroundColor: ["rgba(75, 192, 192, 0.6)", "rgba(255, 99, 132, 0.6)"],
-      },
-    ],
-  };
+//   const data = {
+//     labels: studentGrades.map((project) => project.name),
+//     datasets: [
+//       {
+//         label: "Average Grade",
+//         data: studentGrades.map((project) => project.averageGrade),
+//         backgroundColor: ["rgba(75, 192, 192, 0.6)", "rgba(255, 99, 132, 0.6)"],
+//       },
+//     ],
+//   };
 
-  return (
-    <ChartComponent
-      title="Average Student Grades by Project"
-      data={data}
-      chartType={Bar}
-    />
-  );
-};
+//   return (
+//     <ChartComponent
+//       title="Average Student Grades by Project"
+//       data={data}
+//       chartType={Bar}
+//     />
+//   );
+// };
 
 const MostBookmarkedProjects = () => {
   const [bookmarkedProjects, setBookmarkedProjects] = useState([]);
@@ -261,19 +261,27 @@ const MostCommentedProjects = () => {
 };
 
 const AverageGradeBySemester = () => {
-  const gradesBySemester = [
-    { name: "Semester 1", averageGrade: 75 },
-    { name: "Semester 2", averageGrade: 60 },
-    { name: "Semester 3", averageGrade: 80 },
-    { name: "Semester 4", averageGrade: 92 },
-  ];
+  const [gradesBySemester, setGradesBySemester] = useState([]);
+
+  useEffect(() => {
+    // Fetch data from backend endpoint
+    axios
+      .get("http://localhost:4000/count/average-grades-by-graduation-term")
+      .then((response) => {
+        setGradesBySemester(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
 
   const data = {
-    labels: gradesBySemester.map((semester) => semester.name),
+    labels: gradesBySemester.map((semester) => semester.term),
     datasets: [
       {
         label: "Average Grade",
-        data: gradesBySemester.map((semester) => semester.averageGrade),
+        data: gradesBySemester.map((semester) => semester.avg_overall_grade),
         backgroundColor: "rgba(75, 192, 192, 0.6)",
         borderColor: "rgba(75, 192, 192, 1)",
         fill: false,
@@ -289,6 +297,7 @@ const AverageGradeBySemester = () => {
     />
   );
 };
+
 const AverageGradesByYearAndDepartment = () => {
   const [gradesByYearAndDepartment, setGradesByYearAndDepartment] = useState(
     []
@@ -364,7 +373,7 @@ const AverageGradeByGraduationYear = () => {
   const [gradesByYear, setGradesByYear] = useState([]);
 
   useEffect(() => {
-    fetch("/average-grades-by-graduation-year")
+    fetch("http://localhost:4000/count/average-grades-by-graduation-year")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -385,20 +394,6 @@ const AverageGradeByGraduationYear = () => {
   const data = {
     labels: gradesByYear.map((item) => item.year),
     datasets: [
-      {
-        label: "Average Semester Work Grade",
-        data: gradesByYear.map((item) => item.avg_semester_work_grade),
-        backgroundColor: "rgba(255, 99, 132, 0.6)",
-        borderColor: "rgba(255, 99, 132, 1)",
-        fill: false,
-      },
-      {
-        label: "Average Final Work Grade",
-        data: gradesByYear.map((item) => item.avg_final_work_grade),
-        backgroundColor: "rgba(54, 162, 235, 0.6)",
-        borderColor: "rgba(54, 162, 235, 1)",
-        fill: false,
-      },
       {
         label: "Average Overall Grade",
         data: gradesByYear.map((item) => item.avg_overall_grade),
@@ -525,10 +520,10 @@ const FailureRateByDepartment = () => {
 const Reports = () => (
   <div className="reports-container">
     <div className="charts">
-      <div className="chart-card">
+      {/* <div className="chart-card">
         <h2>Average Student Grades by Project</h2>
         <AverageStudentGradesByProject />
-      </div>
+      </div> */}
 
       <div className="chart-card">
         <MostBookmarkedProjects />

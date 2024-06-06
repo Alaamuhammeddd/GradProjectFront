@@ -5,10 +5,13 @@ import "../Styles/Login.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { setAuthUser } from "../Helper/Storage";
+import { Alert } from "react-bootstrap";
 const Login = () => {
   const [professor_email, setProfessorEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -22,11 +25,13 @@ const Login = () => {
         }
       );
       console.log("Registration successful:", response.data);
+      setSuccess("Log-in Successful");
       setAuthUser(response.data);
       sessionStorage.setItem("authUser", JSON.stringify(response.data));
       navigate("/");
     } catch (error) {
       console.error("Registration failed:", error.response.data);
+      setError("Login Failed. Please try again.");
       setErrors(
         error.response.data.errors.reduce((acc, err) => {
           acc[err.param] = err.msg;
@@ -37,6 +42,8 @@ const Login = () => {
   };
   return (
     <>
+      {success && <Alert variant="success">{success}</Alert>}
+      {error && <Alert variant="danger">{error}</Alert>}
       <div className="login-container">
         <form onSubmit={handleSubmit} className="login-form">
           <h1
@@ -77,7 +84,7 @@ const Login = () => {
             Login
           </button>
           <p style={{ fontWeight: "bold" }}>
-            <Link className="LoginLink" to={"/login"}>
+            <Link className="LoginLink" to={"/forget-password-prof"}>
               Forgot Password?
             </Link>
           </p>

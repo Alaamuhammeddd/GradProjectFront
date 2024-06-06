@@ -3,6 +3,7 @@ import axios from "axios";
 import "../../Styles/Dashboardadmin.css";
 import "../../Styles/Sidebar.css";
 import { getAuthUser } from "../../Helper/Storage";
+import { Button, Modal, TextField } from "@mui/material";
 
 const Sidebar = () => {
   return (
@@ -23,12 +24,34 @@ const Sidebar = () => {
 const Dashboardadmin = () => {
   const auth = getAuthUser();
   const admin_token = auth.admin_token;
+  const [showAddPopup, setShowAddPopup] = useState(false);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [departments, setDepartments] = useState([]);
   const [graduationTerms, setGraduationTerms] = useState([]);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [newDepartmentName, setNewDepartmentName] = useState("");
+  const [deleteDepartment, setDeleteDepartment] = useState(null);
+  const [newTermName, setNewTermName] = useState("");
+  const [deleteTerm, setDeleteTerm] = useState(null);
+  const [showAddTermPopup, setShowAddTermPopup] = useState(false);
+  const [showDeleteTermPopup, setShowDeleteTermPopup] = useState(false);
 
   // State for projects
   const [projects, setProjects] = useState([]);
 
+  const handleClosePopup = () => {
+    setShowAddPopup(false);
+    setShowDeletePopup(false);
+    setShowAddTermPopup(false);
+    setShowDeleteTermPopup(false);
+    setSuccessMessage("");
+    setErrorMessage("");
+    setNewDepartmentName("");
+    setDeleteDepartment(null);
+    setNewTermName("");
+    setDeleteTerm(null);
+  };
   // Fetch department names from backend
   useEffect(() => {
     const fetchDepartments = async () => {
@@ -47,6 +70,7 @@ const Dashboardadmin = () => {
 
     fetchDepartments();
   }, []);
+
   useEffect(() => {
     const fetchGraduationTerms = async () => {
       try {
@@ -87,41 +111,8 @@ const Dashboardadmin = () => {
     fetchPendingProjects();
   }, []);
 
-  // Function to handle deletion of departments
-  const handleDeleteDepartment = async (id, name) => {
-    const confirmDelete = window.confirm(
-      `Are you sure you want to delete the department "${name}"?`
-    );
-    if (confirmDelete) {
-      try {
-        const response = await axios.delete(
-          "http://localhost:4000/admin/departments",
-          {
-            data: { department_name: name },
-          },
-          {
-            headers: {
-              token: admin_token,
-            },
-          }
-        );
-        if (response.status === 200) {
-          setDepartments(departments.filter((dep) => dep.id !== id));
-          alert("Department Deleted Successfully!");
-        } else {
-          alert(response.data.error);
-        }
-      } catch (error) {
-        console.error("Error deleting department:", error);
-        alert("Failed to delete department");
-      }
-    }
-  };
-
   // Function to handle addition of new department
   const handleAddDepartment = async () => {
-    const newDepartmentName = prompt("Enter the new department name:");
-
     if (newDepartmentName) {
       try {
         const response = await axios.post(
@@ -141,52 +132,51 @@ const Dashboardadmin = () => {
             name: newDepartmentName,
           };
           setDepartments([...departments, newDepartment]);
-          alert("Department added!");
+          setSuccessMessage("Department added successfully!");
+          setErrorMessage("");
         } else {
-          alert(response.data.error);
+          setErrorMessage(response.data.error);
         }
       } catch (error) {
         console.error("Error adding new department:", error);
-        alert("Failed to add new department");
+        setErrorMessage("Failed to add new department");
       }
+    } else {
+      setErrorMessage("Department name cannot be empty");
     }
   };
 
-  // Function to handle deletion of graduation terms
-  const handleDeleteTerm = async (id, name) => {
-    const confirmDelete = window.confirm(
-      `Are you sure you want to delete the term "${name}"?`
-    );
-    if (confirmDelete) {
+  // Function to handle deletion of departments
+  const handleDeleteDepartment = async () => {
+    if (deleteDepartment) {
       try {
         const response = await axios.delete(
-          "http://localhost:4000/admin/graduation-terms",
+          "http://localhost:4000/admin/departments",
           {
+            data: { department_name: deleteDepartment.name },
             headers: {
               token: admin_token,
             },
-          },
-          {
-            data: { graduation_term: name },
           }
         );
         if (response.status === 200) {
-          setGraduationTerms(graduationTerms.filter((ter) => ter.id !== id));
-          alert("Term Deleted Successfully!");
+          setDepartments(
+            departments.filter((dep) => dep.id !== deleteDepartment.id)
+          );
+          setSuccessMessage("Department deleted successfully!");
+          setErrorMessage("");
         } else {
-          alert(response.data.error);
+          setErrorMessage(response.data.error);
         }
       } catch (error) {
-        console.error("Error deleting Term:", error);
-        alert("Failed to delete Term");
+        console.error("Error deleting department:", error);
+        setErrorMessage("Failed to delete department");
       }
+    } else {
+      setErrorMessage("No department selected for deletion");
     }
   };
-
-  // Function to handle addition of new graduation term
   const handleAddTerm = async () => {
-    const newTermName = prompt("Enter the new term name:");
-
     if (newTermName) {
       try {
         const response = await axios.post(
@@ -206,19 +196,170 @@ const Dashboardadmin = () => {
             name: newTermName,
           };
           setGraduationTerms([...graduationTerms, newTerm]);
-          alert("Term added!");
+          setSuccessMessage("Term added successfully!");
+          setErrorMessage("");
         } else {
-          alert(response.data.error);
+          setErrorMessage(response.data.error);
         }
       } catch (error) {
         console.error("Error adding new term:", error);
-        alert("Failed to add new term");
+        setErrorMessage("Failed to add new term");
       }
+    } else {
+      setErrorMessage("Term name cannot be empty");
     }
   };
-
+  const handleDeleteTerm = async () => {
+    if (deleteTerm) {
+      try {
+        const response = await axios.delete(
+          "http://localhost:4000/admin/graduation-terms",
+          {
+            data: { graduation_term: deleteTerm.name },
+            headers: {
+              token: admin_token,
+            },
+          }
+        );
+        if (response.status === 200) {
+          setGraduationTerms(
+            graduationTerms.filter((term) => term.id !== deleteTerm.id)
+          );
+          setSuccessMessage("Term deleted successfully!");
+          setErrorMessage("");
+        } else {
+          setErrorMessage(response.data.error);
+        }
+      } catch (error) {
+        console.error("Error deleting term:", error);
+        setErrorMessage("Failed to delete term");
+      }
+    } else {
+      setErrorMessage("No term selected for deletion");
+    }
+  };
   return (
     <div className="container" style={{ display: "flex" }}>
+      <Modal open={showAddPopup} onClose={handleClosePopup}>
+        <div className="grades-popup-container">
+          <div
+            className="grades-popup"
+            style={{
+              textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              alignContent: "center",
+              margin: "10px",
+              padding: "30px",
+            }}
+          >
+            <button className="close-btn" onClick={handleClosePopup}>
+              X
+            </button>
+            <h2>Add Department</h2>
+            <TextField
+              label="Department Name"
+              value={newDepartmentName}
+              onChange={(e) => setNewDepartmentName(e.target.value)}
+              style={{ marginBottom: "30px" }}
+            />
+            <Button onClick={handleAddDepartment}>Add</Button>
+            {successMessage && (
+              <div style={{ color: "green" }}>{successMessage}</div>
+            )}
+            {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
+          </div>
+        </div>
+      </Modal>
+
+      <Modal open={showDeletePopup} onClose={handleClosePopup}>
+        <div className="grades-popup-container">
+          <div
+            className="grades-popup"
+            style={{
+              textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              alignContent: "center",
+              margin: "10px",
+              padding: "30px",
+            }}
+          >
+            <button className="close-btn" onClick={handleClosePopup}>
+              X
+            </button>
+            <h2>Delete Department</h2>
+            <div style={{ marginBottom: "30px" }}>
+              Are you sure you want to delete the department "
+              {deleteDepartment?.name}"?
+            </div>
+            <Button onClick={handleDeleteDepartment}>Delete</Button>
+            {successMessage && (
+              <div style={{ color: "green" }}>{successMessage}</div>
+            )}
+            {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
+          </div>
+        </div>
+      </Modal>
+      <Modal open={showAddTermPopup} onClose={handleClosePopup}>
+        <div className="grades-popup-container">
+          <div
+            className="grades-popup"
+            style={{
+              textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              alignContent: "center",
+              margin: "10px",
+              padding: "30px",
+            }}
+          >
+            <button className="close-btn" onClick={handleClosePopup}>
+              X
+            </button>
+            <h2>Add Term</h2>
+            <TextField
+              label="Term Name"
+              value={newTermName}
+              onChange={(e) => setNewTermName(e.target.value)}
+              style={{ marginBottom: "30px" }}
+            />
+            <Button onClick={handleAddTerm}>Add</Button>
+            {successMessage && (
+              <div style={{ color: "green" }}>{successMessage}</div>
+            )}
+            {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
+          </div>
+        </div>
+      </Modal>
+      <Modal open={showDeleteTermPopup} onClose={handleClosePopup}>
+        <div className="grades-popup-container">
+          <div
+            className="grades-popup"
+            style={{
+              textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              alignContent: "center",
+              margin: "10px",
+              padding: "30px",
+            }}
+          >
+            <button className="close-btn" onClick={handleClosePopup}>
+              X
+            </button>
+            <h2>Delete Term</h2>
+            <div style={{ marginBottom: "30px" }}>
+              Are you sure you want to delete the term "{deleteTerm?.name}"?
+            </div>
+            <Button onClick={handleDeleteTerm}>Delete</Button>
+            {successMessage && (
+              <div style={{ color: "green" }}>{successMessage}</div>
+            )}
+            {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
+          </div>
+        </div>
+      </Modal>
       <Sidebar />
       <div className="content" style={{ flex: 1, padding: "20px" }}>
         {/* Top section containing department and term tables */}
@@ -230,8 +371,9 @@ const Dashboardadmin = () => {
           >
             <h2>Departments</h2>
             <button
-              onClick={handleAddDepartment}
+              onClick={() => setShowAddPopup(true)}
               style={{ marginBottom: "10px" }}
+              className="add-btn"
             >
               Add Department
             </button>
@@ -258,12 +400,10 @@ const Dashboardadmin = () => {
                       <td>{department.name}</td>
                       <td>
                         <button
-                          onClick={() =>
-                            handleDeleteDepartment(
-                              department.id,
-                              department.name
-                            )
-                          }
+                          onClick={() => {
+                            setDeleteDepartment(department);
+                            setShowDeletePopup(true);
+                          }}
                           style={{
                             backgroundColor: "rgb(236, 91, 91)",
                             borderRadius: "10px",
@@ -282,7 +422,11 @@ const Dashboardadmin = () => {
           {/* Graduation Term Table */}
           <div className="term-table" style={{ flex: 1 }}>
             <h2>Graduation Terms</h2>
-            <button onClick={handleAddTerm} style={{ marginBottom: "10px" }}>
+            <button
+              onClick={() => setShowAddTermPopup(true)}
+              style={{ marginBottom: "10px" }}
+              className="add-btn"
+            >
               Add Term
             </button>
             <div
@@ -308,7 +452,10 @@ const Dashboardadmin = () => {
                       <td>{term.name}</td>
                       <td>
                         <button
-                          onClick={() => handleDeleteTerm(term.id, term.name)}
+                          onClick={() => {
+                            setDeleteTerm(term);
+                            setShowDeleteTermPopup(true);
+                          }}
                           style={{
                             backgroundColor: "rgb(236, 91, 91)",
                             borderRadius: "10px",
@@ -352,7 +499,6 @@ const Dashboardadmin = () => {
                   <th>Graduation Year</th>
                   <th>Graduation Term</th>
                   <th>Department Name</th>
-                  <th>Project Files Path</th>
                   <th>GitHub Link</th>
                   <th>Approval Status</th>
                 </tr>
@@ -367,8 +513,16 @@ const Dashboardadmin = () => {
                     <td>{item.graduation_year}</td>
                     <td>{item.graduation_term}</td>
                     <td>{item.department_name}</td>
-                    <td>{item.project_files_path}</td>
-                    <td>{item.github_link}</td>
+                    <td>
+                      <a
+                        target="_blank" // Add this line
+                        rel="noopener noreferrer"
+                        style={{ textDecoration: "none", color: "blue" }}
+                        href={item.github_link}
+                      >
+                        {item.github_link}
+                      </a>
+                    </td>
                     <td>{item.approval_status}</td>
                   </tr>
                 ))}

@@ -24,6 +24,8 @@ const Sidebar = () => {
 };
 
 const ManageComments = () => {
+  const auth = getAuthUser();
+  const admin_token = auth.admin_token;
   const [comments, setComments] = useState([]);
   const [showGradesPopup, setShowGradesPopup] = useState(false);
   const [commentToDelete, setCommentToDelete] = useState(null);
@@ -51,7 +53,11 @@ const ManageComments = () => {
 
   const confirmDelete = () => {
     axios
-      .delete(`http://localhost:4000/admin/comments/${commentToDelete}`)
+      .delete(`http://localhost:4000/admin/comments/${commentToDelete}`, {
+        headers: {
+          token: admin_token,
+        },
+      })
       .then(() => {
         setComments(
           comments.filter((comment) => comment.comment_id !== commentToDelete)
@@ -99,30 +105,34 @@ const ManageComments = () => {
       </div>
       <Sidebar />
       <div className="project-comments">
-        <div className="text">
+        <div className="manage-comments-text">
           <h3>Comments</h3>
-          <ul>
-            {comments.map((comment) => (
-              <li
-                key={comment.comment_id}
-                style={{
-                  marginBottom: "20px",
-                  listStyleType: "none",
-                  borderBottom: "3px solid #DFE2E8",
-                }}
-              >
-                <span>{comment.commenter_name}</span> 1 hour ago
-                <p>{comment.comment_text}</p>
-                <button
-                  onClick={() => handleDelete(comment.comment_id)}
-                  className="del-btn"
-                >
-                  <FaTrash color="#dc3545" />
-                  Delete
-                </button>
-              </li>
-            ))}
-          </ul>
+          <table>
+            <thead>
+              <tr>
+                <th>Commenter Name</th>
+                <th>Comment Text</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {comments.map((comment) => (
+                <tr key={comment.comment_id}>
+                  <td>{comment.commenter_name}</td>
+                  <td>{comment.comment_text}</td>
+                  <td>
+                    <button
+                      onClick={() => handleDelete(comment.comment_id)}
+                      className="del-btn"
+                    >
+                      <FaTrash color="#dc3545" />
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </>

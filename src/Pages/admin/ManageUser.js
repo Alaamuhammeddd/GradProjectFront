@@ -3,6 +3,7 @@ import axios from "axios";
 import "../../Styles/ManageUser.css";
 import "../../Styles/Sidebar.css";
 import { Button, Modal, TextField } from "@mui/material";
+import { getAuthUser } from "../../Helper/Storage";
 
 const Sidebar = () => {
   return (
@@ -21,8 +22,12 @@ const Sidebar = () => {
 };
 
 const ManageUser = () => {
+  const auth = getAuthUser();
+  const admin_token = auth.admin_token;
   const [users, setUsers] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [formData, setFormData] = useState({
     professor_id: "",
     professor_name: "",
@@ -36,7 +41,11 @@ const ManageUser = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/admin/students")
+      .get("http://localhost:4000/admin/students", {
+        headers: {
+          token: admin_token,
+        },
+      })
       .then((response) => {
         setUsers(response.data);
       })
@@ -48,11 +57,19 @@ const ManageUser = () => {
   const handleDeleteUser = (id) => {
     console.log(`Deleting user with ID ${id}`);
     axios
-      .delete(`http://localhost:4000/admin/delete-student/${id}`)
+      .delete(`http://localhost:4000/admin/delete-student/${id}`, {
+        headers: {
+          token: admin_token,
+        },
+      })
       .then((response) => {
         console.log(response.data.message);
         axios
-          .get("http://localhost:4000/admin/students")
+          .get("http://localhost:4000/admin/students", {
+            headers: {
+              token: admin_token,
+            },
+          })
           .then((response) => {
             setUsers(response.data);
           })
@@ -91,7 +108,12 @@ const ManageUser = () => {
     try {
       const response = await axios.post(
         "http://localhost:4000/admin/professor-register",
-        formData
+        formData,
+        {
+          headers: {
+            token: admin_token,
+          },
+        }
       );
       console.log("Professor added:", response.data);
       setSuccessMessage("Professor added successfully.");
@@ -120,32 +142,32 @@ const ManageUser = () => {
     }
   };
 
+  const handleShowDeleteConfirmation = (user) => {
+    setSelectedUser(user);
+    setShowDeleteConfirmation(true);
+  };
+
+  const handleCloseDeleteConfirmation = () => {
+    setShowDeleteConfirmation(false);
+    setSelectedUser(null);
+  };
+
+  const handleConfirmDelete = () => {
+    if (selectedUser) {
+      handleDeleteUser(selectedUser.student_id);
+      setShowDeleteConfirmation(false);
+      setSelectedUser(null);
+    }
+  };
+
   return (
     <>
       <div className="manage-user-container">
         <Sidebar />
-        <div className="admin-panel">
-          <div className="admin-icon-left">
-            <div className="icon-container">
-              <div className="icon-info-left">
-                <span className="badge">10+</span>
-                <p className="current">Current Users</p>
-              </div>
-            </div>
-          </div>
-          <div className="admin-icon-right">
-            <div className="icon-container">
-              <div className="icon-info-right">
-                <span className="badgee">5+</span>
-                <p className="deleted">Deleted Users</p>
-              </div>
-            </div>
-          </div>
-        </div>
         <h2>Students</h2>
         <div
           className="user-table"
-          style={{ position: "absolute", left: "280px", top: "400px" }}
+          style={{ position: "absolute", left: "280px", top: "200px" }}
         >
           <Button
             className="add-professor-btn"
@@ -170,7 +192,7 @@ const ManageUser = () => {
                   <td>
                     <button
                       className="delete-btn"
-                      onClick={() => handleDeleteUser(user.student_id)}
+                      onClick={() => handleShowDeleteConfirmation(user)}
                     >
                       Delete
                     </button>
@@ -181,6 +203,7 @@ const ManageUser = () => {
           </table>
         </div>
       </div>
+
       <Modal open={showPopup} onClose={handleClosePopup}>
         <div className="grades-popup-container">
           <div
@@ -256,6 +279,47 @@ const ManageUser = () => {
               <div style={{ color: "green" }}>{successMessage}</div>
             )}
             {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
+          </div>
+        </div>
+      </Modal>
+
+      <Modal
+        open={showDeleteConfirmation}
+        onClose={handleCloseDeleteConfirmation}
+      >
+        <div className="grades-popup-container">
+          <div
+            className="grades-popup"
+            style={{
+              textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              alignContent: "center",
+              margin: "10px",
+              padding: "30px",
+            }}
+          >
+            <button
+              className="close-btn"
+              onClick={handleCloseDeleteConfirmation}
+            >
+              X
+            </button>
+            <h2>Confirm Delete</h2>
+            <div style={{ marginBottom: "30px" }}>
+              Are you sure you want to delete the student with ID:{" "}
+              {selectedUser?.student_id} and Name: {selectedUser?.student_name}?
+            </div>
+            <Button
+              onClick={handleConfirmDelete}
+              variant="contained"
+              style={{ marginBottom: "10px" }}
+            >
+              Delete
+            </Button>
+            <Button onClick={handleCloseDeleteConfirmation} variant="outlined">
+              Cancel
+            </Button>
           </div>
         </div>
       </Modal>
