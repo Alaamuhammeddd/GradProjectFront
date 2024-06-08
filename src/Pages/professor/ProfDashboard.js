@@ -29,8 +29,12 @@ const ProfDashboard = () => {
   const professor_token = auth.professor_token;
 
   useEffect(() => {
-    // Fetch total projects count
+    // Fetch data on component mount
+    fetchData();
+  }, [auth.professor_id]); // Add auth.professor_id as dependency
 
+  const fetchData = () => {
+    // Fetch total projects count
     axios
       .get(
         `http://localhost:4000/count/professor-project-count/${auth.professor_id}`,
@@ -63,7 +67,49 @@ const ProfDashboard = () => {
       .catch((error) => {
         console.error("Error fetching requested projects:", error);
       });
-  }, [auth.professor_id]);
+  };
+
+  const handleAcceptProject = (projectId) => {
+    axios
+      .put(
+        `http://localhost:4000/professor/accept/project/${projectId}/${auth.professor_id}`,
+        null,
+        {
+          headers: {
+            token: professor_token,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response.data.message);
+        // Refresh data after accepting
+        fetchData();
+      })
+      .catch((error) => {
+        console.error("Error accepting project:", error);
+      });
+  };
+
+  const handleRejectProject = (projectId) => {
+    axios
+      .put(
+        `http://localhost:4000/professor/reject/project/${projectId}/${auth.professor_id}`,
+        null,
+        {
+          headers: {
+            token: professor_token,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response.data.message);
+        // Refresh data after rejecting
+        fetchData();
+      })
+      .catch((error) => {
+        console.error("Error rejecting project:", error);
+      });
+  };
 
   // Sample data for charts
   const chartData = [
@@ -75,76 +121,6 @@ const ProfDashboard = () => {
     { title: "Jun", users: 239, projects: 380 },
   ];
 
-  const handleAcceptProject = (projectId) => {
-    axios
-      .put(
-        `http://localhost:4000/professor/accept/project/${projectId}/${auth.professor_id}`,
-        null, // No request body, so pass null
-        {
-          headers: {
-            token: professor_token,
-          },
-        }
-      )
-      .then((response) => {
-        // Update state or UI as needed
-        console.log(response.data.message);
-        // Refresh the requested projects after accepting
-        axios
-          .get(
-            `http://localhost:4000/professor/${auth.professor_id}/requested-projects`,
-            {
-              headers: {
-                token: professor_token,
-              },
-            }
-          )
-          .then((response) => {
-            setRequestedProjects(response.data);
-          })
-          .catch((error) => {
-            console.error("Error fetching requested projects:", error);
-          });
-      })
-      .catch((error) => {
-        console.error("Error accepting project:", error);
-      });
-  };
-  const handleRejectProject = (projectId) => {
-    axios
-      .put(
-        `http://localhost:4000/professor/reject/project/${projectId}/${auth.professor_id}`,
-        null, // No request body, so pass null
-        {
-          headers: {
-            token: professor_token,
-          },
-        }
-      )
-      .then((response) => {
-        // Update state or UI as needed
-        console.log(response.data.message);
-        // Refresh the requested projects after accepting
-        axios
-          .get(
-            `http://localhost:4000/professor/${auth.professor_id}/requested-projects`,
-            {
-              headers: {
-                token: professor_token,
-              },
-            }
-          )
-          .then((response) => {
-            setRequestedProjects(response.data);
-          })
-          .catch((error) => {
-            console.error("Error fetching requested projects:", error);
-          });
-      })
-      .catch((error) => {
-        console.error("Error accepting project:", error);
-      });
-  };
   return (
     <div
       className="container"
