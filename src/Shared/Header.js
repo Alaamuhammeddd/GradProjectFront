@@ -171,7 +171,10 @@ const Header = () => {
                 >
                   <CiBellOn size="30px" />
                 </Dropdown.Toggle>
-                <Dropdown.Menu show={showNotifications}>
+                <Dropdown.Menu
+                  show={showNotifications}
+                  className="notifications-drp-dwn"
+                >
                   {notifications.length > 0 ? (
                     notifications.map((notification) => (
                       <Dropdown.Item
