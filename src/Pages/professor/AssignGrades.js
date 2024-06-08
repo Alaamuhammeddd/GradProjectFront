@@ -93,6 +93,15 @@ const AssignGrades = () => {
           console.log(response);
         })
       );
+
+      // After saving, fetch the updated data
+      const updatedResponse = await axios.get(
+        `http://localhost:4000/professor/project/${projectIdNumber}/students`
+      );
+
+      // Update the table data with the fetched updated data
+      setTableData(updatedResponse.data);
+
       alert("Grades assigned successfully!");
     } catch (error) {
       console.error("Error assigning grades:", error);

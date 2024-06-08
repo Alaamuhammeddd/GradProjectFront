@@ -94,14 +94,11 @@ const Dashboardadmin = () => {
   useEffect(() => {
     const fetchPendingProjects = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:4000/admin/pending-projects",
-          {
-            headers: {
-              token: admin_token,
-            },
-          }
-        );
+        const response = await axios.get("http://localhost:4000/admin/all", {
+          headers: {
+            token: admin_token,
+          },
+        });
         setProjects(response.data);
       } catch (error) {
         console.error("Error fetching pending projects:", error);
