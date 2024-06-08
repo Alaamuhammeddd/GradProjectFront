@@ -242,10 +242,7 @@ const ViewProject = () => {
       </div>
 
       <div className="project-header">
-        <div
-          style={{ display: "inline-block", marginTop: "50px" }}
-          className="text"
-        >
+        <div style={{ marginTop: "50px" }} className="text">
           <h2>{projects.result.title}</h2>
           <em>
             {" "}
